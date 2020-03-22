@@ -34,6 +34,8 @@ export default class CanvasService {
   public reset(): void {
     this._hives = [];
     this._drones = [];
+    this._resources = [];
+    this._knownResources = [];
   }
 
   public addHive(hive: Hive, playerType: PlayerType): void {

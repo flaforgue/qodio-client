@@ -28,7 +28,7 @@ export default class SocketService {
         this._canvasService.addHive(player.hive, playerType);
         this._canvasService.addDrones(player.hive.drones, playerType);
         this._canvasService.addResources(game.board.resources);
-        // this._canvasService.addKnownResources(player.knownResources);
+        this._canvasService.addKnownResources(player.knownResources);
       });
     });
 
