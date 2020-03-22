@@ -1,7 +1,9 @@
 export default {
   // [R, G, B]
 
-  territory: [69, 105, 144],
+  back: [0, 0, 0],
+
+  white: [255, 255, 255],
 
   players: {
     self: [69, 105, 144],
@@ -16,4 +18,5 @@ export default {
   },
 
   resource: [163, 124, 64],
+  knownResource: [123, 144, 75],
 };

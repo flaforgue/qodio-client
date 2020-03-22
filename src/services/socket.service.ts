@@ -25,8 +25,8 @@ export default class SocketService {
 
       game.players.forEach((player) => {
         const playerType = player.id === this._playerId ? 'self' : 'ennemy';
-        this._canvasService.addHive(player.hive, playerType);
-        this._canvasService.addDrones(player.hive.drones, playerType);
+        this._canvasService.addHive(playerType, player.hive);
+        this._canvasService.addDrones(playerType, player.hive.drones);
         this._canvasService.addResources(game.board.resources);
         this._canvasService.addKnownResources(player.knownResources);
       });

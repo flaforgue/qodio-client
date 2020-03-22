@@ -26,9 +26,9 @@ export default class CanvasService {
   public redraw(): void {
     this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
     this._hives.forEach((hive) => this._drawHive(hive));
-    this._drones.forEach((drone) => this._drawDrone(drone));
     this._resources.forEach((resource) => this._drawResource(resource));
     this._knownResources.forEach((resource) => this._drawKnownResource(resource));
+    this._drones.forEach((drone) => this._drawDrone(drone));
   }
 
   public reset(): void {
@@ -38,19 +38,19 @@ export default class CanvasService {
     this._knownResources = [];
   }
 
-  public addHive(hive: Hive, playerType: PlayerType): void {
+  public addHive(playerType: PlayerType, hive: Hive): void {
     this._hives.push({ ...hive, playerType });
   }
 
-  public addDrones(drones: Drone[], playerType: PlayerType): void {
+  public addDrones(playerType: PlayerType, drones: Drone[] = []): void {
     this._drones.push(...drones.map((drone) => ({ ...drone, playerType })));
   }
 
-  public addKnownResources(resources: Resource[]): void {
+  public addKnownResources(resources: Resource[] = []): void {
     this._knownResources.push(...resources);
   }
 
-  public addResources(resources: Resource[]): void {
+  public addResources(resources: Resource[] = []): void {
     this._resources.push(...resources);
   }
 
@@ -73,7 +73,7 @@ export default class CanvasService {
   }
 
   private _drawKnownResource(resource: Resource): void {
-    this._drawCircle(resource.position, resource.stock / 5, getColor(colors.players.self));
+    this._drawCircle(resource.position, resource.stock / 5, getColor(colors.knownResource));
   }
 
   private _drawCircle(position: Position, radius: number, color: string): void {
