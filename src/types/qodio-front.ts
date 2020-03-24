@@ -43,6 +43,7 @@ export type DroneAction = 'waiting' | 'scouting';
 
 export interface Drone extends PlayerEntity {
   action: DroneAction;
+  carriedResourceUnits: number;
 }
 
 export interface Resource extends Entity {

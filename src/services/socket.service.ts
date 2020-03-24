@@ -22,14 +22,14 @@ export default class SocketService {
 
     this._socket.on('game.tick', (game: Game) => {
       this._canvasService.reset();
-
-      game.players.forEach((player) => {
+      for (let i = 0; i < game.players.length; i++) {
+        const player = game.players[i];
         const playerType = player.id === this._playerId ? 'self' : 'ennemy';
         this._canvasService.addHive(playerType, player.hive);
         this._canvasService.addDrones(playerType, player.hive.drones);
         this._canvasService.addResources(game.board.resources);
         this._canvasService.addKnownResources(player.knownResources);
-      });
+      }
     });
 
     this._socket.on('game.stop', () => {

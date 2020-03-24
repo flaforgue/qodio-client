@@ -18,5 +18,5 @@ export default {
   },
 
   resource: [163, 124, 64],
-  knownResource: [123, 144, 75],
+  knownResource: [106, 15, 73],
 };

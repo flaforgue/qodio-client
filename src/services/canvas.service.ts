@@ -25,10 +25,18 @@ export default class CanvasService {
 
   public redraw(): void {
     this._context.clearRect(0, 0, this._canvas.width, this._canvas.height);
-    this._hives.forEach((hive) => this._drawHive(hive));
-    this._resources.forEach((resource) => this._drawResource(resource));
-    this._knownResources.forEach((resource) => this._drawKnownResource(resource));
-    this._drones.forEach((drone) => this._drawDrone(drone));
+    for (let i = 0; i < this._hives.length; i++) {
+      this._drawHive(this._hives[i]);
+    }
+    for (let i = 0; i < this._resources.length; i++) {
+      this._drawResource(this._resources[i]);
+    }
+    for (let i = 0; i < this._knownResources.length; i++) {
+      this._drawKnownResource(this._knownResources[i]);
+    }
+    for (let i = 0; i < this._drones.length; i++) {
+      this._drawDrone(this._drones[i]);
+    }
   }
 
   public reset(): void {
@@ -66,6 +74,9 @@ export default class CanvasService {
 
   private _drawDrone(drone: Drone): void {
     this._drawCircle(drone.position, 5, getColor(colors.actions[drone.action]));
+    if (drone.carriedResourceUnits > 0) {
+      this._drawCircle(drone.position, 3, getColor(colors.knownResource));
+    }
   }
 
   private _drawResource(resource: Resource): void {
