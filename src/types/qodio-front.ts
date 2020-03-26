@@ -39,7 +39,7 @@ export interface Hive extends PlayerEntity {
   drones: Drone[];
 }
 
-export type DroneAction = 'waiting' | 'scouting';
+export type DroneAction = 'waiting' | 'scouting' | 'gathering';
 
 export interface Drone extends PlayerEntity {
   action: DroneAction;

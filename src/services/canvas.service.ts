@@ -28,12 +28,15 @@ export default class CanvasService {
     for (let i = 0; i < this._hives.length; i++) {
       this._drawHive(this._hives[i]);
     }
+
     for (let i = 0; i < this._resources.length; i++) {
       this._drawResource(this._resources[i]);
     }
+
     for (let i = 0; i < this._knownResources.length; i++) {
       this._drawKnownResource(this._knownResources[i]);
     }
+
     for (let i = 0; i < this._drones.length; i++) {
       this._drawDrone(this._drones[i]);
     }
