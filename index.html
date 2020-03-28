@@ -8,12 +8,19 @@
       }
 
       canvas {
+        position: absolute;
+        left: 0;
+        height: 0;
+      }
+
+      #board {
         background-color: #eaeaea;
       }
     </style>
   </head>
   <body>
     <canvas id="board" height="0" width="0"></canvas>
+    <canvas id="drones" height="0" width="0"></canvas>
 
     <script src="./dist/bundle.js"></script>
   </body>
