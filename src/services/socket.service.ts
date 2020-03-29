@@ -3,6 +3,7 @@ import { Game, Player } from '../types/qodio-front';
 import CanvasService from './canvas.service';
 
 export default class SocketService {
+  private _isLocked = false;
   private _socket: SocketIOClient.Socket;
   private _canvasService: CanvasService;
   private _playerId: string;
@@ -21,14 +22,18 @@ export default class SocketService {
     });
 
     this._socket.on('game.tick', (game: Game) => {
-      this._canvasService.reset();
-      for (let i = 0; i < game.players.length; i++) {
-        const player = game.players[i];
-        const playerType = player.id === this._playerId ? 'self' : 'ennemy';
-        this._canvasService.addHive(playerType, player.hive);
-        this._canvasService.addDrones(playerType, player.hive.drones);
-        this._canvasService.addResources(game.board.resources);
-        this._canvasService.addKnownResources(player.knownResources);
+      if (!this._isLocked) {
+        this._isLocked = true;
+        this._canvasService.reset();
+        for (let i = 0; i < game.players.length; i++) {
+          const player = game.players[i];
+          const playerType = player.id === this._playerId ? 'self' : 'ennemy';
+          this._canvasService.addHive(playerType, player.hive);
+          this._canvasService.addDrones(playerType, player.hive.drones);
+          this._canvasService.addResources(game.board.resources);
+          this._canvasService.addKnownResources(player.knownResources);
+        }
+        this._isLocked = false;
       }
     });
 
