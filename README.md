@@ -1,8 +1,6 @@
-# Qodio Front
+# quodio-client
 
-## Local setup
+## Project setup
 
-`npm i`
-`npm run watch`
-
-Open `index.html` in your browser
+`npm install`
+`npm run dev`

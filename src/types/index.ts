@@ -30,7 +30,6 @@ export interface Entity {
 
 export interface PlayerEntity extends Entity {
   playerId: string;
-  playerType: PlayerType;
 }
 
 export interface Hive extends PlayerEntity {

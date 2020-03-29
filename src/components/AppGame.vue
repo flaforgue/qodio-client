@@ -1,0 +1,102 @@
+<template>
+  <div class="app-game">
+    <AppCanvas
+      ref="canvasComponent"
+      :height="board.height"
+      :width="board.width"
+      :resources="board.resources"
+      :knownResources="knownResources"
+      :playerHive="playerHive"
+      :otherHives="otherHives"
+    />
+    <AppSocket
+      :serverUrl="props.serverUrl"
+      @self-create="handleSelfCreate"
+      @game-create="handleGameCreate"
+      @game-stop="handleGameStop"
+      @game-tick="handleGameTick"
+    />
+  </div>
+</template>
+
+<script lang="ts">
+import AppCanvas from './AppCanvas.vue';
+import AppSocket from './AppSocket.vue';
+import { defineComponent, ref, reactive, nextTick } from 'vue';
+import { Player, Game, Resource, Board, Hive } from '../types';
+
+export default defineComponent({
+  props: {
+    serverUrl: String,
+  },
+  components: {
+    AppCanvas,
+    AppSocket,
+  },
+  setup(props) {
+    const canvasComponent = ref();
+    const isLocked = ref<boolean>();
+    isLocked.value = false;
+    let playerId: string;
+
+    const board = reactive<Board>({
+      height: 0,
+      width: 0,
+      resources: [],
+    });
+    const knownResources = ref<Resource[]>([]);
+    const playerHive = ref<Hive>();
+    const otherHives = reactive<Hive[]>([]);
+
+    const handleSelfCreate = (player: Player): void => {
+      playerId = player.id;
+    };
+
+    const handleGameCreate = (game: Game): void => {
+      board.height = game.board.height;
+      board.width = game.board.width;
+      board.resources = game.board.resources;
+    };
+
+    const handleGameStop = (): void => {
+      console.log('Game stopped');
+    };
+
+    const handleGameTick = (game: Game): void => {
+      if (!isLocked.value) {
+        isLocked.value = true;
+        otherHives.length = 0;
+        board.resources = game.board.resources;
+        for (let i = 0; i < game.players.length; i++) {
+          const player = game.players[i];
+          if (player.id === playerId) {
+            playerHive.value = player.hive;
+            knownResources.value = player.knownResources;
+          } else {
+            otherHives.push(player.hive);
+          }
+        }
+
+        if (canvasComponent.value) {
+          nextTick().then(() => canvasComponent.value.redraw());
+        }
+
+        isLocked.value = false;
+      }
+    };
+
+    return {
+      props,
+      canvasComponent,
+      board,
+      handleSelfCreate,
+      handleGameCreate,
+      handleGameStop,
+      handleGameTick,
+      knownResources,
+      playerHive,
+      otherHives,
+    };
+  },
+});
+</script>

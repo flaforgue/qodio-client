@@ -1,14 +1,23 @@
 {
+  "root": true,
   "env": {
+    "node": true,
     "browser": true
   },
-  "parser": "@typescript-eslint/parser",
-  "extends": ["eslint:recommended", "plugin:@typescript-eslint/recommended"],
+  "parser": "vue-eslint-parser",
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "plugin:vue/essential",
+    "eslint:recommended",
+    "@vue/prettier",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parserOptions": {
+    "parser": "@typescript-eslint/parser",
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
-  "ignorePatterns": ["dist/"],
+  "ignorePatterns": ["dist/", "src/main.js", "webpack.config.js"],
   "rules": {
     "indent": [
       "error",
