@@ -13,12 +13,10 @@ export default (paths: string[], spriteOptions: SpriteOptions): HTMLCanvasElemen
   }
 
   context.beginPath();
-  context.strokeStyle = spriteOptions.color;
   context.fillStyle = spriteOptions.color;
   for (let i = 0; i < paths.length; i++) {
     context.fill(new Path2D(paths[i]));
   }
-  // context.closePath();
 
   return canvas;
 };
