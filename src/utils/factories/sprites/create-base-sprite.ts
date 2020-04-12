@@ -4,6 +4,7 @@ export default (paths: string[], spriteOptions: SpriteOptions): HTMLCanvasElemen
   const canvas = document.createElement('canvas');
   canvas.width = spriteOptions.width;
   canvas.height = spriteOptions.height;
+  canvas.style['image-rendering'] = 'pixelated';
   const context = canvas.getContext('2d') as CanvasRenderingContext2D;
 
   if (spriteOptions.rotateOptions) {
