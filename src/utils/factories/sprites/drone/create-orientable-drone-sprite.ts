@@ -1,10 +1,10 @@
-import createSingleDroneSprite from './create-single-drone-sprite';
+import createDroneSprite from './create-drone-sprite';
 import { SpriteOptions, OrientableSprite } from '../../../../types';
 
 export default (defaultOptions: SpriteOptions): OrientableSprite => {
   return {
-    up: createSingleDroneSprite(defaultOptions),
-    upright: createSingleDroneSprite({
+    up: createDroneSprite(defaultOptions),
+    upright: createDroneSprite({
       ...defaultOptions,
       rotateOptions: {
         angle: 45,
@@ -12,7 +12,7 @@ export default (defaultOptions: SpriteOptions): OrientableSprite => {
         translteY: -4,
       },
     }),
-    right: createSingleDroneSprite({
+    right: createDroneSprite({
       ...defaultOptions,
       rotateOptions: {
         angle: 90,
@@ -20,7 +20,7 @@ export default (defaultOptions: SpriteOptions): OrientableSprite => {
         translteY: 0,
       },
     }),
-    downright: createSingleDroneSprite({
+    downright: createDroneSprite({
       ...defaultOptions,
       rotateOptions: {
         angle: 135,
@@ -28,7 +28,7 @@ export default (defaultOptions: SpriteOptions): OrientableSprite => {
         translteY: 10,
       },
     }),
-    down: createSingleDroneSprite({
+    down: createDroneSprite({
       ...defaultOptions,
       rotateOptions: {
         angle: 180,
@@ -36,7 +36,7 @@ export default (defaultOptions: SpriteOptions): OrientableSprite => {
         translteY: 20,
       },
     }),
-    downleft: createSingleDroneSprite({
+    downleft: createDroneSprite({
       ...defaultOptions,
       rotateOptions: {
         angle: 225,
@@ -44,7 +44,7 @@ export default (defaultOptions: SpriteOptions): OrientableSprite => {
         translteY: 24,
       },
     }),
-    left: createSingleDroneSprite({
+    left: createDroneSprite({
       ...defaultOptions,
       rotateOptions: {
         angle: 270,
@@ -52,7 +52,7 @@ export default (defaultOptions: SpriteOptions): OrientableSprite => {
         translteY: 20,
       },
     }),
-    upleft: createSingleDroneSprite({
+    upleft: createDroneSprite({
       ...defaultOptions,
       rotateOptions: {
         angle: 315,
