@@ -1,5 +1,5 @@
 import { DroneSprites } from '../../../../types';
-import createOrientableDroneSprite from './orientable-drone-sprite.factory';
+import createOrientableDroneSprite from './create-orientable-drone-sprite';
 import colors from '../../../../enums/colors';
 
 const defaultOptions = {

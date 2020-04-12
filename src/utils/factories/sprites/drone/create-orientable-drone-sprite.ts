@@ -1,4 +1,4 @@
-import createSingleDroneSprite from './single-drone-sprite.factory';
+import createSingleDroneSprite from './create-single-drone-sprite';
 import { SpriteOptions, OrientableSprite } from '../../../../types';
 
 export default (defaultOptions: SpriteOptions): OrientableSprite => {
