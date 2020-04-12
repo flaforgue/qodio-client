@@ -71,11 +71,11 @@ export default defineComponent((props: AppCanvasProps) => {
       drawResource(props.resources[i]);
     }
 
-    drawHive('self', props.playerHive);
-
     for (let i = 0; i < props.knownResources.length; i++) {
       drawKnownResource(props.knownResources[i]);
     }
+
+    drawHive('self', props.playerHive);
 
     for (let i = 0; i < props.otherHives.length; i++) {
       const playerType = 'ennemy';
@@ -92,6 +92,6 @@ export default defineComponent((props: AppCanvasProps) => {
 </script>
 <style lang="scss" scoped>
 canvas {
-  background-color: #ddd;
+  background-image: url('https://live.staticflickr.com/2633/4081217254_d2e7bf59f3_z.jpg');
 }
 </style>
