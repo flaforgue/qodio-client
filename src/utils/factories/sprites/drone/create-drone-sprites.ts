@@ -1,31 +1,31 @@
 import { DroneSprites } from '../../../../types';
-import createOrientableDroneSprite from './create-orientable-drone-sprite';
+import createOrientedDroneSprites from './create-oriented-drone-sprites';
 import colors from '../../../../enums/colors';
 
 const defaultOptions = {
-  width: 20,
   height: 20,
+  width: 20,
 };
 
 export default (): DroneSprites => {
   return {
-    wait: createOrientableDroneSprite({
+    wait: createOrientedDroneSprites({
       ...defaultOptions,
       color: colors.actions.wait.hex,
     }),
-    scout: createOrientableDroneSprite({
+    scout: createOrientedDroneSprites({
       ...defaultOptions,
       color: colors.actions.scout.hex,
     }),
-    gather: createOrientableDroneSprite({
+    gather: createOrientedDroneSprites({
       ...defaultOptions,
       color: colors.actions.gather.hex,
     }),
-    attack: createOrientableDroneSprite({
+    attack: createOrientedDroneSprites({
       ...defaultOptions,
       color: colors.actions.attack.hex,
     }),
-    ennemy: createOrientableDroneSprite({
+    ennemy: createOrientedDroneSprites({
       ...defaultOptions,
       color: colors.players.ennemy.hex,
     }),
