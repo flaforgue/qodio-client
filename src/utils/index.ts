@@ -1,4 +1,5 @@
 import { Position } from '../types';
+import Factories from './factories';
 
 const getColor = (data: number[], opacity = 1): string => {
   return `rgba(${data.join(',')}, ${opacity})`;
@@ -18,4 +19,4 @@ const drawCircle = (
   }
 };
 
-export { getColor, drawCircle };
+export { Factories, getColor, drawCircle };
