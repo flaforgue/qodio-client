@@ -35,17 +35,12 @@ export default defineComponent({
     AppProgressBar,
   },
   setup(props: AppControlsProps) {
-    const resourceColor = getColor(colors.knownResource);
-    const emptyResourceColor = getColor(colors.knownResource, 0.2);
-    const populationColor = getColor(colors.players.self);
-    const emptyPopulationColor = getColor(colors.players.self, 0.2);
-
     return {
       props,
-      resourceColor,
-      populationColor,
-      emptyResourceColor,
-      emptyPopulationColor,
+      resourceColor: colors.knownResource.hex,
+      populationColor: colors.players.self.hex,
+      emptyResourceColor: getColor(colors.knownResource.rgb, 0.2),
+      emptyPopulationColor: getColor(colors.players.self.rgb, 0.2),
     };
   },
 });

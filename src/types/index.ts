@@ -41,14 +41,42 @@ export interface Hive extends PlayerEntity {
   drones: Drone[];
 }
 
-export type DroneAction = 'wait' | 'scout' | 'gather';
+export type DroneAction = 'wait' | 'scout' | 'gather' | 'attack';
+
+export type Direction =
+  | 'up'
+  | 'upright'
+  | 'right'
+  | 'downright'
+  | 'down'
+  | 'downleft'
+  | 'left'
+  | 'upleft';
 
 export interface Drone extends PlayerEntity {
   action: DroneAction;
   carriedResourceUnits: number;
+  direction: Direction;
 }
 
 export interface Resource extends Entity {
   stock: number;
   initialStock: number;
 }
+
+export type DroneSprites = Record<DroneAction | 'ennemy', OrientableSprite>;
+
+export type OrientableSprite = Record<Direction, HTMLCanvasElement>;
+
+export type SpriteOptions = {
+  width: number;
+  height: number;
+  color: string;
+  rotateOptions?: RotateOptions;
+};
+
+export type RotateOptions = {
+  angle: number;
+  translteX: number;
+  translteY: number;
+};

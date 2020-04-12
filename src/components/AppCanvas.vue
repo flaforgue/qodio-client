@@ -9,6 +9,7 @@ import { defineComponent, onMounted, ref } from 'vue';
 import { Hive, Drone, Resource, PlayerType } from '../types';
 import { drawCircle, getColor } from '../utils';
 import colors from '../enums/colors';
+import Factory from '../utils/factories';
 
 type AppCanvasProps = {
   height: number;
@@ -20,6 +21,7 @@ type AppCanvasProps = {
 };
 
 export default defineComponent((props: AppCanvasProps) => {
+  const droneSprites = Factory.createDroneSprites();
   const canvas = ref<HTMLCanvasElement>();
   let context: CanvasRenderingContext2D;
 
@@ -30,18 +32,26 @@ export default defineComponent((props: AppCanvasProps) => {
   });
 
   const drawResource = (resource: Resource): void => {
-    drawCircle(context, resource.position, resource.stock / 5, getColor(colors.resource));
+    drawCircle(context, resource.position, 10 + resource.stock / 5, colors.resource.hex);
   };
 
   const drawDrone = (playerType: PlayerType, drone: Drone): void => {
     if (playerType === 'self') {
-      drawCircle(context, drone.position, 5, getColor(colors.actions[drone.action]));
+      context.drawImage(
+        droneSprites[drone.action][drone.direction],
+        drone.position.x - 10,
+        drone.position.y - 10,
+      );
 
       if (drone.carriedResourceUnits > 0) {
-        drawCircle(context, drone.position, 3, getColor(colors.knownResource));
+        drawCircle(context, drone.position, 3, colors.knownResource.hex);
       }
     } else {
-      drawCircle(context, drone.position, 5, getColor(colors.players[playerType]));
+      context.drawImage(
+        droneSprites.ennemy[drone.direction],
+        drone.position.x - 10,
+        drone.position.y - 10,
+      );
     }
   };
 
@@ -50,10 +60,10 @@ export default defineComponent((props: AppCanvasProps) => {
       context,
       hive.position,
       hive.territoryRadius,
-      getColor(colors.players[playerType], 0.2),
+      getColor(colors.players[playerType].rgb, 0.2),
     );
 
-    drawCircle(context, hive.position, hive.radius, getColor(colors.players[playerType]));
+    drawCircle(context, hive.position, hive.radius, colors.players[playerType].hex);
 
     for (let i = 0; i < hive.drones.length; i++) {
       drawDrone(playerType, hive.drones[i]);
@@ -61,7 +71,7 @@ export default defineComponent((props: AppCanvasProps) => {
   };
 
   const drawKnownResource = (resource: Resource): void => {
-    drawCircle(context, resource.position, resource.stock / 5, getColor(colors.knownResource));
+    drawCircle(context, resource.position, resource.stock / 5, colors.knownResource.hex);
   };
 
   const redraw = (): void => {
