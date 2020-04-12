@@ -1,7 +1,5 @@
 <template>
-  <div id="app">
-    <AppGame :serverUrl="serverUrl" />
-  </div>
+  <AppGame :serverUrl="serverUrl" />
 </template>
 
 <script lang="ts">
