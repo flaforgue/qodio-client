@@ -35,10 +35,13 @@ export interface PlayerEntity extends Entity {
 export interface Hive extends PlayerEntity {
   radius: number;
   territoryRadius: number;
+  stock: number;
+  maxStock: number;
+  maxPopulation: number;
   drones: Drone[];
 }
 
-export type DroneAction = 'waiting' | 'scouting' | 'gathering';
+export type DroneAction = 'wait' | 'scout' | 'gather';
 
 export interface Drone extends PlayerEntity {
   action: DroneAction;

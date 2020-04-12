@@ -1,7 +1,7 @@
 export default {
   // [R, G, B]
 
-  back: [0, 0, 0],
+  black: [0, 0, 0],
 
   white: [255, 255, 255],
 
@@ -11,10 +11,10 @@ export default {
   },
 
   actions: {
-    waiting: [29, 30, 24],
-    scouting: [70, 129, 137],
-    gathering: [138, 155, 104],
-    attacking: [147, 31, 29],
+    wait: [29, 30, 24],
+    scout: [70, 129, 137],
+    gather: [138, 155, 104],
+    // attack: [147, 31, 29],
   },
 
   resource: [163, 124, 64],
