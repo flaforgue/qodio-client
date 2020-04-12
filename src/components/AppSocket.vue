@@ -37,7 +37,5 @@ export default defineComponent((props: AppSocketProps, context: SetupContext) =>
   socket.on('pong', () => {
     console.log('pong');
   });
-
-  return {};
 });
 </script>
