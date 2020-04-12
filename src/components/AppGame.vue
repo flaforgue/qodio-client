@@ -16,14 +16,22 @@
       @game-stop="handleGameStop"
       @game-tick="handleGameTick"
     />
+    <AppControls
+      :stock="playerHive.stock"
+      :maxStock="playerHive.maxStock"
+      :population="playerHive.drones.length"
+      :maxPopulation="playerHive.maxPopulation"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import AppCanvas from './AppCanvas.vue';
 import AppSocket from './AppSocket.vue';
+import AppControls from './AppControls.vue';
 import { defineComponent, ref, reactive, nextTick } from 'vue';
 import { Player, Game, Resource, Board, Hive } from '../types';
+import { Factories } from '../utils';
 
 export default defineComponent({
   props: {
@@ -32,6 +40,7 @@ export default defineComponent({
   components: {
     AppCanvas,
     AppSocket,
+    AppControls,
   },
   setup(props) {
     const canvasComponent = ref();
@@ -39,13 +48,9 @@ export default defineComponent({
     isLocked.value = false;
     let playerId: string;
 
-    const board = reactive<Board>({
-      height: 0,
-      width: 0,
-      resources: [],
-    });
+    const board = reactive<Board>(Factories.createBoard());
+    const playerHive = ref<Hive>(Factories.createHive());
     const knownResources = ref<Resource[]>([]);
-    const playerHive = ref<Hive>();
     const otherHives = reactive<Hive[]>([]);
 
     const handleSelfCreate = (player: Player): void => {
