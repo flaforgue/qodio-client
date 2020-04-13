@@ -20,7 +20,6 @@ export type PlayerType = 'self' | 'ennemy';
 export type Player = {
   hive: Hive;
   id: string;
-  knownResources: Resource[];
 };
 
 export interface Entity {
@@ -32,6 +31,11 @@ export interface PlayerEntity extends Entity {
   playerId: string;
 }
 
+export interface BuildingRequest extends PlayerEntity {
+  type: string;
+  progress: number;
+}
+
 export interface Hive extends PlayerEntity {
   level: number;
   radius: number;
@@ -40,9 +44,12 @@ export interface Hive extends PlayerEntity {
   maxStock: number;
   maxPopulation: number;
   drones: Drone[];
+  knownResources: Resource[];
+  collectors: Resource[];
+  buildingRequests: BuildingRequest[];
 }
 
-export type DroneAction = 'wait' | 'scout' | 'gather' | 'attack';
+export type DroneAction = 'wait' | 'scout' | 'collect' | 'build' | 'attack';
 
 export type Direction =
   | 'up'
@@ -69,15 +76,14 @@ export type BaseSprites = {
   default: CanvasImageSource;
 };
 
-export type HiveSprites = {
-  1: CanvasImageSource;
-  2: CanvasImageSource;
-  3: CanvasImageSource;
-};
-
-export type DroneSprites = Record<DroneAction | 'ennemy', OrientableSprite>;
-
+export type HiveLevel = 1 | 2 | 3;
+export type HiveSprites = Record<HiveLevel, CanvasImageSource>;
+export type BuildingType = 'collector';
+export type BuildingRequestSprites = Record<BuildingType, CanvasImageSource>;
+export type CollectorStockLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+export type CollectorSprites = Record<CollectorStockLevel, CanvasImageSource>;
 export type OrientableSprite = Record<Direction, CanvasImageSource>;
+export type DroneSprites = Record<DroneAction | 'ennemy', OrientableSprite>;
 
 export type PathOptions = {
   path: string;

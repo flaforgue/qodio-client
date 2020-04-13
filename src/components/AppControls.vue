@@ -48,13 +48,12 @@ export default defineComponent({
 <style lang="scss" scoped>
 .app-controls {
   height: 80px;
-  width: 400px;
+  width: 100%;
   position: fixed;
   bottom: 0;
   left: 0;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.8);
   display: flex;
-  border-top-right-radius: 5px;
 
   .app-control {
     flex: 1;

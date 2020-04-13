@@ -11,7 +11,6 @@
       :height="board.height"
       :width="board.width"
       :resources="board.resources"
-      :knownResources="knownResources"
       :playerHive="playerHive"
       :otherHives="otherHives"
     />
@@ -82,7 +81,6 @@ export default defineComponent({
           const player = game.players[i];
           if (player.id === playerId) {
             playerHive.value = player.hive;
-            knownResources.value = player.knownResources;
           } else {
             otherHives.push(player.hive);
           }

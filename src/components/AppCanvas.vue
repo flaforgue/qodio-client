@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { Hive, Drone, Resource, PlayerType } from '../types';
-import { drawCircle, getColor } from '../utils';
+import { Hive, Drone, Resource, PlayerType, BuildingRequest } from '../types';
+import { drawCircle, getColor, drawCircularProgress } from '../utils';
 import colors from '../enums/colors';
 import Factory from '../utils/factories';
 
@@ -15,7 +15,6 @@ type AppCanvasProps = {
   height: number;
   width: number;
   resources: Resource[];
-  knownResources: Resource[];
   playerHive: Hive;
   otherHives: Hive[];
 };
@@ -23,7 +22,9 @@ type AppCanvasProps = {
 export default defineComponent((props: AppCanvasProps) => {
   const hiveSprites = Factory.createHiveSprites();
   const droneSprites = Factory.createDroneSprites();
-  const resourceSprites = Factory.createResourceSprites();
+  const knownResourceSprites = Factory.createKnownResourceSprites();
+  const buildingRequestSprites = Factory.createBuildingRequestSprites();
+  const collectorSprites = Factory.createCollectorSprites();
   const canvas = ref<HTMLCanvasElement>();
   let context: CanvasRenderingContext2D;
 
@@ -32,6 +33,21 @@ export default defineComponent((props: AppCanvasProps) => {
       context = canvas.value.getContext('2d') as CanvasRenderingContext2D;
     }
   });
+
+  const drawResource = (resource: Resource): void => {
+    drawCircle(context, resource.position, 30, getColor(colors.resource.rgb, 0.3));
+  };
+
+  const drawKnownResource = (resource: Resource): void => {
+    const size = 30;
+    context.drawImage(
+      knownResourceSprites.default,
+      resource.position.x - 15,
+      resource.position.y - size + 5,
+      size,
+      size,
+    );
+  };
 
   const drawDrone = (playerType: PlayerType, drone: Drone): void => {
     const spriteActionName = playerType === 'self' ? drone.action : 'ennemy';
@@ -45,6 +61,35 @@ export default defineComponent((props: AppCanvasProps) => {
     if (drone.carriedResourceUnits > 0) {
       drawCircle(context, drone.position, 3, colors.knownResource.hex);
     }
+  };
+
+  const drawBuildingRequest = (buildingRequest: BuildingRequest): void => {
+    const size = 80;
+    context.drawImage(
+      buildingRequestSprites[buildingRequest.type],
+      buildingRequest.position.x - size / 2,
+      buildingRequest.position.y - size / 2,
+      size,
+      size,
+    );
+
+    const ratio = buildingRequest.progress / 100;
+    drawCircularProgress(context, buildingRequest.position, 40, ratio, colors.actions.build.hex);
+  };
+
+  const drawCollector = (collector: Resource): void => {
+    const size = 80;
+    const stockLevel = collector.stock
+      ? Math.floor((collector.stock / collector.initialStock) * 8)
+      : 0;
+
+    context.drawImage(
+      collectorSprites[stockLevel],
+      collector.position.x - size / 2,
+      collector.position.y - size / 2,
+      size,
+      size,
+    );
   };
 
   const drawHive = (playerType: PlayerType, hive: Hive): void => {
@@ -61,24 +106,21 @@ export default defineComponent((props: AppCanvasProps) => {
 
     context.drawImage(
       hiveSprites[hive.level],
-      Math.floor(hive.position.x - hive.radius / 2),
-      Math.floor(hive.position.y - hive.radius / 2),
+      Math.floor(hive.position.x - hive.radius),
+      Math.floor(hive.position.y - hive.radius),
     );
-  };
 
-  const drawKnownResource = (resource: Resource): void => {
-    const size = 30;
-    context.drawImage(
-      resourceSprites.default,
-      resource.position.x - 15,
-      resource.position.y - size + 5,
-      size,
-      size,
-    );
-  };
+    for (let i = 0; i < hive.knownResources.length; i++) {
+      drawKnownResource(hive.knownResources[i]);
+    }
 
-  const drawResource = (resource: Resource): void => {
-    drawCircle(context, resource.position, 30, getColor(colors.resource.rgb, 0.3));
+    for (let i = 0; i < hive.buildingRequests.length; i++) {
+      drawBuildingRequest(hive.buildingRequests[i]);
+    }
+
+    for (let i = 0; i < hive.collectors.length; i++) {
+      drawCollector(hive.collectors[i]);
+    }
   };
 
   const redraw = (): void => {
@@ -86,10 +128,6 @@ export default defineComponent((props: AppCanvasProps) => {
 
     for (let i = 0; i < props.resources.length; i++) {
       drawResource(props.resources[i]);
-    }
-
-    for (let i = 0; i < props.knownResources.length; i++) {
-      drawKnownResource(props.knownResources[i]);
     }
 
     drawHive('self', props.playerHive);
@@ -109,6 +147,6 @@ export default defineComponent((props: AppCanvasProps) => {
 </script>
 <style lang="scss" scoped>
 canvas {
-  background-image: url('/public/images/backgrounds/desert1.jpg');
+  background-image: url('/public/images/backgrounds/desert2.jpg');
 }
 </style>

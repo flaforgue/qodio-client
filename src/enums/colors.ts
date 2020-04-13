@@ -29,9 +29,13 @@ export default {
       rgb: [70, 129, 137],
       hex: '#468189',
     },
-    gather: {
-      rgb: [138, 155, 104],
-      hex: '#8a9b68',
+    collect: {
+      rgb: [100, 113, 76],
+      hex: '#64714c',
+    },
+    build: {
+      rgb: [56, 83, 115],
+      hex: '#ae4a6f',
     },
     attack: {
       rgb: [147, 31, 29],
@@ -45,7 +49,7 @@ export default {
   },
 
   knownResource: {
-    rgb: [106, 15, 73],
-    hex: '#6a0f49',
+    rgb: [242, 100, 63],
+    hex: '#f2643f',
   },
 };

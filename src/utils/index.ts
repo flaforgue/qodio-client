@@ -19,4 +19,29 @@ const drawCircle = (
   }
 };
 
-export { Factories, getColor, drawCircle };
+const drawCircularProgress = (
+  context: CanvasRenderingContext2D | null,
+  position: Position,
+  size: number,
+  ratio: number,
+  color: string,
+): void => {
+  if (context) {
+    context.beginPath();
+    context.arc(
+      position.x,
+      position.y,
+      (size / 100) * 85,
+      (-1 / 2) * Math.PI,
+      ratio * 2 * Math.PI - (1 / 2) * Math.PI,
+    );
+
+    context.lineWidth = (size / 100) * 10;
+    context.strokeStyle = color;
+
+    //fin du dessin
+    context.stroke();
+  }
+};
+
+export { Factories, getColor, drawCircle, drawCircularProgress };

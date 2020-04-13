@@ -9,26 +9,20 @@ const defaultOptions = {
 };
 
 export default (): DroneSprites => {
-  return {
-    wait: createOrientedDroneSprites({
+  const sprites = {} as DroneSprites;
+  const actions = ['wait', 'scout', 'collect', 'build', 'attack'];
+
+  for (let i = 0; i < actions.length; i++) {
+    sprites[actions[i]] = createOrientedDroneSprites({
       ...defaultOptions,
-      color: colors.actions.wait.hex,
-    }),
-    scout: createOrientedDroneSprites({
-      ...defaultOptions,
-      color: colors.actions.scout.hex,
-    }),
-    gather: createOrientedDroneSprites({
-      ...defaultOptions,
-      color: colors.actions.gather.hex,
-    }),
-    attack: createOrientedDroneSprites({
-      ...defaultOptions,
-      color: colors.actions.attack.hex,
-    }),
-    ennemy: createOrientedDroneSprites({
-      ...defaultOptions,
-      color: colors.players.ennemy.hex,
-    }),
-  };
+      color: colors.actions[actions[i]].hex,
+    });
+  }
+
+  sprites.ennemy = createOrientedDroneSprites({
+    ...defaultOptions,
+    color: colors.players.ennemy.hex,
+  });
+
+  return sprites;
 };
