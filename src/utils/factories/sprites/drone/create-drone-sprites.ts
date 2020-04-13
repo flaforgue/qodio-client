@@ -5,6 +5,7 @@ import colors from '../../../../enums/colors';
 const defaultOptions = {
   height: 20,
   width: 20,
+  imageRendering: 'pixelated',
 };
 
 export default (): DroneSprites => {
