@@ -79,9 +79,7 @@ export default defineComponent((props: AppCanvasProps) => {
 
   const drawCollector = (collector: Resource): void => {
     const size = 80;
-    const stockLevel = collector.stock
-      ? Math.floor((collector.stock / collector.initialStock) * 8)
-      : 0;
+    const stockLevel = Math.ceil((collector.stock / collector.initialStock) * 8);
 
     context.drawImage(
       collectorSprites[stockLevel],
