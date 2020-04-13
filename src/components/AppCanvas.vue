@@ -104,12 +104,6 @@ export default defineComponent((props: AppCanvasProps) => {
       drawDrone(playerType, hive.drones[i]);
     }
 
-    context.drawImage(
-      hiveSprites[hive.level],
-      Math.floor(hive.position.x - hive.radius),
-      Math.floor(hive.position.y - hive.radius),
-    );
-
     for (let i = 0; i < hive.knownResources.length; i++) {
       drawKnownResource(hive.knownResources[i]);
     }
@@ -121,6 +115,12 @@ export default defineComponent((props: AppCanvasProps) => {
     for (let i = 0; i < hive.collectors.length; i++) {
       drawCollector(hive.collectors[i]);
     }
+
+    context.drawImage(
+      hiveSprites[hive.level],
+      Math.floor(hive.position.x - hive.radius),
+      Math.floor(hive.position.y - hive.radius),
+    );
   };
 
   const redraw = (): void => {
