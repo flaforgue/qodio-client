@@ -1,11 +1,13 @@
 import createHive from './create-hive';
 import createBoard from './create-board';
 import createDroneSprites from './sprites/drone/create-drone-sprites';
-import createResourceSprite from './sprites/resource/create-resource-sprite';
+import createResourceSprites from './sprites/resource/create-resource-sprites';
+import createHiveSprites from './sprites/hive/create-hive-sprites';
 
 export default {
   createHive,
   createBoard,
   createDroneSprites,
-  createResourceSprite,
+  createResourceSprites,
+  createHiveSprites,
 };

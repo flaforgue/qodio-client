@@ -21,7 +21,9 @@ type AppCanvasProps = {
 };
 
 export default defineComponent((props: AppCanvasProps) => {
+  const hiveSprites = Factory.createHiveSprites();
   const droneSprites = Factory.createDroneSprites();
+  const resourceSprites = Factory.createResourceSprites();
   const canvas = ref<HTMLCanvasElement>();
   let context: CanvasRenderingContext2D;
 
@@ -31,27 +33,17 @@ export default defineComponent((props: AppCanvasProps) => {
     }
   });
 
-  const drawResource = (resource: Resource): void => {
-    drawCircle(context, resource.position, 10 + resource.stock / 5, colors.resource.hex);
-  };
-
   const drawDrone = (playerType: PlayerType, drone: Drone): void => {
-    if (playerType === 'self') {
-      context.drawImage(
-        droneSprites[drone.action][drone.direction],
-        drone.position.x - 10,
-        drone.position.y - 10,
-      );
+    const spriteActionName = playerType === 'self' ? drone.action : 'ennemy';
 
-      if (drone.carriedResourceUnits > 0) {
-        drawCircle(context, drone.position, 3, colors.knownResource.hex);
-      }
-    } else {
-      context.drawImage(
-        droneSprites.ennemy[drone.direction],
-        drone.position.x - 10,
-        drone.position.y - 10,
-      );
+    context.drawImage(
+      droneSprites[spriteActionName][drone.direction],
+      drone.position.x - 10,
+      drone.position.y - 10,
+    );
+
+    if (drone.carriedResourceUnits > 0) {
+      drawCircle(context, drone.position, 3, colors.knownResource.hex);
     }
   };
 
@@ -63,15 +55,30 @@ export default defineComponent((props: AppCanvasProps) => {
       getColor(colors.players[playerType].rgb, 0.2),
     );
 
-    drawCircle(context, hive.position, hive.radius, colors.players[playerType].hex);
-
     for (let i = 0; i < hive.drones.length; i++) {
       drawDrone(playerType, hive.drones[i]);
     }
+
+    context.drawImage(
+      hiveSprites[hive.level],
+      Math.floor(hive.position.x - hive.radius / 2),
+      Math.floor(hive.position.y - hive.radius / 2),
+    );
   };
 
   const drawKnownResource = (resource: Resource): void => {
-    drawCircle(context, resource.position, resource.stock / 5, colors.knownResource.hex);
+    const size = 30;
+    context.drawImage(
+      resourceSprites.default,
+      resource.position.x - 15,
+      resource.position.y - size + 5,
+      size,
+      size,
+    );
+  };
+
+  const drawResource = (resource: Resource): void => {
+    drawCircle(context, resource.position, 30, getColor(colors.resource.rgb, 0.3));
   };
 
   const redraw = (): void => {
@@ -102,6 +109,6 @@ export default defineComponent((props: AppCanvasProps) => {
 </script>
 <style lang="scss" scoped>
 canvas {
-  background-image: url('https://live.staticflickr.com/2633/4081217254_d2e7bf59f3_z.jpg');
+  background-image: url('/public/images/backgrounds/desert1.jpg');
 }
 </style>

@@ -1,10 +1,22 @@
-import { SpriteOptions } from '../../../types';
+import { SpriteOptions, PathOptions } from '../../../types';
 
-export default (paths: string[], spriteOptions: SpriteOptions): HTMLCanvasElement => {
+const createFromPaths = (
+  context: CanvasRenderingContext2D,
+  pathsOptions: PathOptions[],
+  defaultColor?: string,
+): void => {
+  context.beginPath();
+  for (let i = 0; i < pathsOptions.length; i++) {
+    context.strokeStyle = pathsOptions[i].color ?? defaultColor;
+    context.stroke(new Path2D(pathsOptions[i].path));
+  }
+};
+
+export default (spriteOptions: SpriteOptions): CanvasImageSource => {
   const canvas = document.createElement('canvas');
   canvas.width = spriteOptions.width;
   canvas.height = spriteOptions.height;
-  canvas.style['image-rendering'] = 'pixelated';
+  canvas.style['image-rendering'] = spriteOptions.imageRendering ?? 'auto';
   const context = canvas.getContext('2d') as CanvasRenderingContext2D;
 
   if (spriteOptions.rotateOptions) {
@@ -13,10 +25,15 @@ export default (paths: string[], spriteOptions: SpriteOptions): HTMLCanvasElemen
     context.translate(0, 0);
   }
 
-  context.beginPath();
-  context.fillStyle = spriteOptions.color;
-  for (let i = 0; i < paths.length; i++) {
-    context.fill(new Path2D(paths[i]));
+  if (spriteOptions.url) {
+    const image = new Image();
+    image.src = spriteOptions.url;
+    image.width = spriteOptions.width;
+    image.height = spriteOptions.height;
+
+    return image;
+  } else if (spriteOptions.pathsOptions) {
+    createFromPaths(context, spriteOptions.pathsOptions, spriteOptions.color);
   }
 
   return canvas;

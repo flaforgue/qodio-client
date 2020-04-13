@@ -1,7 +1,7 @@
 import createDroneSprite from './create-drone-sprite';
 import { SpriteOptions, OrientableSprite } from '../../../../types';
 
-export default (defaultOptions: SpriteOptions): OrientableSprite => {
+export default (defaultOptions: Omit<SpriteOptions, 'paths'>): OrientableSprite => {
   return {
     up: createDroneSprite(defaultOptions),
     upright: createDroneSprite({

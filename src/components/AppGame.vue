@@ -1,5 +1,11 @@
 <template>
-  <div class="app-game">
+  <div
+    class="app-game"
+    :style="{
+      height: `${board.height}px`,
+      width: `${board.width}px`,
+    }"
+  >
     <AppCanvas
       ref="canvasComponent"
       :height="board.height"
@@ -105,3 +111,11 @@ export default defineComponent({
   },
 });
 </script>
+<style lang="scss">
+.app-game {
+  padding: 80px;
+  background-color: #333;
+  max-width: auto;
+  width: auto;
+}
+</style>

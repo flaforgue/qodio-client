@@ -33,6 +33,7 @@ export interface PlayerEntity extends Entity {
 }
 
 export interface Hive extends PlayerEntity {
+  level: number;
   radius: number;
   territoryRadius: number;
   stock: number;
@@ -64,15 +65,33 @@ export interface Resource extends Entity {
   initialStock: number;
 }
 
+export type BaseSprites = {
+  default: CanvasImageSource;
+};
+
+export type HiveSprites = {
+  1: CanvasImageSource;
+  2: CanvasImageSource;
+  3: CanvasImageSource;
+};
+
 export type DroneSprites = Record<DroneAction | 'ennemy', OrientableSprite>;
 
-export type OrientableSprite = Record<Direction, HTMLCanvasElement>;
+export type OrientableSprite = Record<Direction, CanvasImageSource>;
+
+export type PathOptions = {
+  path: string;
+  color: string;
+};
 
 export type SpriteOptions = {
   width: number;
   height: number;
-  color: string;
+  color?: string;
+  url?: string;
+  pathsOptions?: PathOptions[];
   rotateOptions?: RotateOptions;
+  imageRendering?: string;
 };
 
 export type RotateOptions = {

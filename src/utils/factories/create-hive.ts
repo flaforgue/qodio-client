@@ -1,6 +1,7 @@
 import { Hive } from 'src/types';
 
 export default (): Hive => ({
+  level: 1,
   id: '',
   position: {
     x: 0,
