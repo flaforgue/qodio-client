@@ -16,16 +16,19 @@
     />
     <AppSocket
       :serverUrl="props.serverUrl"
+      :nbDronesToCreate="nbDronesToCreate"
       @self-create="handleSelfCreate"
       @game-create="handleGameCreate"
       @game-stop="handleGameStop"
       @game-tick="handleGameTick"
+      @drone-created="handleDroneCreated"
     />
     <AppControls
       :stock="playerHive.stock"
       :maxStock="playerHive.maxStock"
       :population="playerHive.drones.length"
       :maxPopulation="playerHive.maxPopulation"
+      @create-drone="handleCreateDrone"
     />
   </div>
 </template>
@@ -49,15 +52,15 @@ export default defineComponent({
   },
   setup(props) {
     const canvasComponent = ref();
-    const isLocked = ref<boolean>();
-    isLocked.value = false;
-    let playerId: string;
-
     const board = reactive<Board>(Factories.createBoard());
     const playerHive = ref<Hive>(Factories.createHive());
     const knownResources = ref<Resource[]>([]);
     const otherHives = reactive<Hive[]>([]);
+    const nbDronesToCreate = ref<number>(0);
+    const isLocked = ref<boolean>();
+    isLocked.value = false;
 
+    let playerId: string;
     const handleSelfCreate = (player: Player): void => {
       playerId = player.id;
     };
@@ -69,7 +72,7 @@ export default defineComponent({
     };
 
     const handleGameStop = (): void => {
-      console.log('Game stopped');
+      console.info('Game stopped');
     };
 
     const handleGameTick = (game: Game): void => {
@@ -94,6 +97,19 @@ export default defineComponent({
       }
     };
 
+    const handleCreateDrone = (): void => {
+      if (nbDronesToCreate.value < 15) {
+        nbDronesToCreate.value++;
+      }
+    };
+
+    const handleDroneCreated = (): void => {
+      console.log('drone.created');
+      if (nbDronesToCreate.value > 0) {
+        nbDronesToCreate.value--;
+      }
+    };
+
     return {
       props,
       canvasComponent,
@@ -103,6 +119,9 @@ export default defineComponent({
       handleGameStop,
       handleGameTick,
       knownResources,
+      handleCreateDrone,
+      nbDronesToCreate,
+      handleDroneCreated,
       playerHive,
       otherHives,
     };

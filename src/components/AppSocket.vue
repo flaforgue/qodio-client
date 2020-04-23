@@ -3,39 +3,40 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext } from 'vue';
+import { defineComponent, SetupContext, watch } from 'vue';
 import SocketIO from 'socket.io-client';
-import { Game, Player } from 'src/types';
 
 type AppSocketProps = {
   serverUrl: string;
+  nbDronesToCreate: number;
 };
 
 export default defineComponent((props: AppSocketProps, context: SetupContext) => {
   const socket = SocketIO(props.serverUrl);
 
-  socket.on('self.create', (player: Player) => {
-    context.emit('self-create', player);
-  });
+  const eventProxied = ['self.create', 'game.create', 'game.stop', 'game.tick', 'drone.created'];
 
-  socket.on('game.create', (game: Game) => {
-    context.emit('game-create', game);
-  });
+  for (let i = 0; i < eventProxied.length; i++) {
+    socket.on(eventProxied[i], (data) => {
+      context.emit(eventProxied[i].replace('.', '-'), data);
+    });
+  }
 
-  socket.on('game.stop', () => {
-    context.emit('game-stop');
-  });
-
-  socket.on('game.tick', (game: Game) => {
-    context.emit('game-tick', game);
-  });
+  watch(
+    () => props.nbDronesToCreate,
+    (newValue, prevValue) => {
+      if (newValue > prevValue) {
+        socket.emit('drone.create');
+      }
+    },
+  );
 
   socket.on('ping', () => {
-    console.log('ping');
+    console.debug('ping');
   });
 
   socket.on('pong', () => {
-    console.log('pong');
+    console.debug('pong');
   });
 });
 </script>

@@ -1,5 +1,6 @@
 <template>
   <div class="app-controls">
+    <app-button label="+" :color="populationColor" @click="handleCreateDrone" />
     <app-progress-bar
       class="app-control"
       :color="populationColor"
@@ -21,6 +22,7 @@
 import { defineComponent } from 'vue';
 import colors from '../enums/colors';
 import AppProgressBar from './AppControls/AppProgressBar.vue';
+import AppButton from './AppControls/AppButton.vue';
 import { getColor } from '../utils';
 
 type AppControlsProps = {
@@ -33,10 +35,17 @@ type AppControlsProps = {
 export default defineComponent({
   components: {
     AppProgressBar,
+    AppButton,
   },
-  setup(props: AppControlsProps) {
+
+  setup(props: AppControlsProps, { emit }) {
+    const handleCreateDrone = (): void => {
+      emit('create-drone');
+    };
+
     return {
       props,
+      handleCreateDrone,
       resourceColor: colors.knownResource.hex,
       populationColor: colors.players.self.hex,
       emptyResourceColor: getColor(colors.knownResource.rgb, 0.2),
@@ -45,6 +54,7 @@ export default defineComponent({
   },
 });
 </script>
+
 <style lang="scss" scoped>
 .app-controls {
   height: 80px;
