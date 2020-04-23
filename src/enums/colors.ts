@@ -4,6 +4,16 @@ export default {
     hex: '#000',
   },
 
+  grey: {
+    rgb: [170, 170, 170],
+    hex: '#aaa',
+  },
+
+  lightGrey: {
+    rgb: [238, 238, 238],
+    hex: '#eee',
+  },
+
   white: {
     rgb: [255, 255, 255],
     hex: '#fff',
@@ -22,8 +32,8 @@ export default {
 
   actions: {
     wait: {
-      rgb: [29, 30, 24],
-      hex: '#1d1e18',
+      rgb: [103, 105, 124],
+      hex: '#67697C',
     },
     scout: {
       rgb: [70, 129, 137],

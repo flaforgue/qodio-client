@@ -17,18 +17,24 @@
     <AppSocket
       :serverUrl="props.serverUrl"
       :nbDronesToCreate="nbDronesToCreate"
+      :nbDronesToRecycle="nbDronesToRecycle"
+      :dronesToEngage="dronesToEngage"
+      :dronesToDisengage="dronesToDisengage"
       @self-create="handleSelfCreate"
       @game-create="handleGameCreate"
       @game-stop="handleGameStop"
       @game-tick="handleGameTick"
       @drone-created="handleDroneCreated"
+      @drone-recycled="handleDroneRecycled"
+      @drone-engaged="handleDroneEngaged"
+      @drone-disengaged="handleDroneDisengaged"
     />
     <AppControls
-      :stock="playerHive.stock"
-      :maxStock="playerHive.maxStock"
-      :population="playerHive.drones.length"
-      :maxPopulation="playerHive.maxPopulation"
-      @create-drone="handleCreateDrone"
+      :hive="playerHive"
+      @drone-create="handleDroneCreate"
+      @drone-recycle="handleDroneRecycle"
+      @drone-engage="handleDroneEngage"
+      @drone-disengage="handleDroneDisengage"
     />
   </div>
 </template>
@@ -38,7 +44,7 @@ import AppCanvas from './AppCanvas.vue';
 import AppSocket from './AppSocket.vue';
 import AppControls from './AppControls.vue';
 import { defineComponent, ref, reactive, nextTick } from 'vue';
-import { Player, Game, Resource, Board, Hive } from '../types';
+import { Player, Game, Resource, Board, Hive, DroneAction } from '../types';
 import { Factories } from '../utils';
 
 export default defineComponent({
@@ -57,6 +63,19 @@ export default defineComponent({
     const knownResources = ref<Resource[]>([]);
     const otherHives = reactive<Hive[]>([]);
     const nbDronesToCreate = ref<number>(0);
+    const nbDronesToRecycle = ref<number>(0);
+    const dronesToEngage: Record<DroneAction, boolean> = reactive({
+      wait: false,
+      scout: false,
+      collect: false,
+      build: false,
+    });
+    const dronesToDisengage: Record<DroneAction, boolean> = reactive({
+      wait: false,
+      scout: false,
+      collect: false,
+      build: false,
+    });
     const isLocked = ref<boolean>();
     isLocked.value = false;
 
@@ -80,6 +99,7 @@ export default defineComponent({
         isLocked.value = true;
         otherHives.length = 0;
         board.resources = game.board.resources;
+
         for (let i = 0; i < game.players.length; i++) {
           const player = game.players[i];
           if (player.id === playerId) {
@@ -97,17 +117,42 @@ export default defineComponent({
       }
     };
 
-    const handleCreateDrone = (): void => {
+    const handleDroneCreate = (): void => {
       if (nbDronesToCreate.value < 15) {
         nbDronesToCreate.value++;
       }
     };
 
     const handleDroneCreated = (): void => {
-      console.log('drone.created');
       if (nbDronesToCreate.value > 0) {
         nbDronesToCreate.value--;
       }
+    };
+
+    const handleDroneRecycle = (): void => {
+      nbDronesToRecycle.value++;
+    };
+
+    const handleDroneRecycled = (): void => {
+      if (nbDronesToCreate.value > 0) {
+        nbDronesToRecycle.value--;
+      }
+    };
+
+    const handleDroneEngage = (action: DroneAction): void => {
+      dronesToEngage[action] = true;
+    };
+
+    const handleDroneDisengage = (action: DroneAction): void => {
+      dronesToDisengage[action] = true;
+    };
+
+    const handleDroneEngaged = (action: DroneAction): void => {
+      dronesToEngage[action] = false;
+    };
+
+    const handleDroneDisengaged = (action: DroneAction): void => {
+      dronesToDisengage[action] = false;
     };
 
     return {
@@ -119,18 +164,30 @@ export default defineComponent({
       handleGameStop,
       handleGameTick,
       knownResources,
-      handleCreateDrone,
-      nbDronesToCreate,
-      handleDroneCreated,
       playerHive,
       otherHives,
+      // drone create
+      handleDroneCreate,
+      nbDronesToCreate,
+      handleDroneCreated,
+      //drone recycle
+      handleDroneRecycle,
+      nbDronesToRecycle,
+      handleDroneRecycled,
+      // drone engagement
+      dronesToEngage,
+      dronesToDisengage,
+      handleDroneEngage,
+      handleDroneDisengage,
+      handleDroneEngaged,
+      handleDroneDisengaged,
     };
   },
 });
 </script>
 <style lang="scss">
 .app-game {
-  padding: 80px;
+  padding: 80px 80px 80px 330px;
   background-color: #333;
   max-width: auto;
   width: auto;

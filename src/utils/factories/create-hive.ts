@@ -17,4 +17,10 @@ export default (): Hive => ({
   stock: 0,
   maxStock: 0,
   maxPopulation: 0,
+  actionsNbDrones: {
+    wait: 0,
+    collect: 0,
+    scout: 0,
+    build: 0,
+  },
 });

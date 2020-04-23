@@ -1,5 +1,12 @@
 <template>
-  <button type="button" class="app-button" :style="{ backgroundColor: props.color }">
+  <button
+    type="button"
+    class="app-button"
+    :style="{
+      backgroundColor: props.backgroundColor,
+      color: props.color,
+    }"
+  >
     {{ props.label }}
   </button>
 </template>
@@ -8,6 +15,7 @@
 import { defineComponent } from 'vue';
 
 type AppButtonProps = {
+  backgroundColor: string;
   color: string;
   label: string;
 };
@@ -26,7 +34,6 @@ export default defineComponent({
   color: #fff;
   font-size: 24px;
   line-height: 21px;
-  margin: 20px;
   height: 30px;
   width: 30px;
   border-radius: 30px;

@@ -35,9 +35,16 @@ export default defineComponent({
 .progress-bar {
   width: 100%;
   height: 30px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  overflow: hidden;
 
   .progress-bar-content {
     height: 100%;
   }
+}
+
+.progress-bar-label {
+  text-align: center;
 }
 </style>

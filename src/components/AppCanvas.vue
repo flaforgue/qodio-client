@@ -8,7 +8,7 @@
 import { defineComponent, onMounted, ref } from 'vue';
 import { Hive, Drone, Resource, PlayerType, BuildingRequest } from '../types';
 import { drawCircle, getColor, drawCircularProgress } from '../utils';
-import colors from '../enums/colors';
+import { colors } from '../enums';
 import Factory from '../utils/factories';
 
 type AppCanvasProps = {
