@@ -1,25 +1,27 @@
 <template>
-  <div class="app-canvas">
+  <div class="app-canvas app-game-canvas">
     <canvas ref="canvas" :height="props.height" :width="props.width"></canvas>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { Hive, Drone, Resource, PlayerType, BuildingRequest } from '../types';
+import { Hive, Drone, Resource, PlayerType, BuildingRequest, HoverableElement } from '../types';
 import { drawCircle, getColor, drawCircularProgress } from '../utils';
 import { colors } from '../enums';
 import Factory from '../utils/factories';
 
-type AppCanvasProps = {
+type AppGameCanvasProps = {
   height: number;
   width: number;
   resources: Resource[];
   playerHive: Hive;
   otherHives: Hive[];
+  hoveredElement?: HoverableElement;
+  activeElement?: HoverableElement;
 };
 
-export default defineComponent((props: AppCanvasProps) => {
+export default defineComponent((props: AppGameCanvasProps) => {
   const hiveSprites = Factory.createHiveSprites();
   const droneSprites = Factory.createDroneSprites();
   const knownResourceSprites = Factory.createKnownResourceSprites();
@@ -34,16 +36,20 @@ export default defineComponent((props: AppCanvasProps) => {
     }
   });
 
+  const getHoverableSpriteName = (id: string): string => {
+    return props.hoveredElement?.id === id || props.activeElement?.id === id ? 'hover' : 'default';
+  };
+
   const drawResource = (resource: Resource): void => {
     drawCircle(context, resource.position, 30, getColor(colors.resource.rgb, 0.3));
   };
 
   const drawKnownResource = (resource: Resource): void => {
-    const size = 30;
+    const size = 40;
     context.drawImage(
-      knownResourceSprites.default,
-      resource.position.x - 15,
-      resource.position.y - size + 5,
+      knownResourceSprites[getHoverableSpriteName(resource.id)],
+      resource.position.x - 20,
+      resource.position.y - 20,
       size,
       size,
     );
@@ -98,12 +104,12 @@ export default defineComponent((props: AppCanvasProps) => {
       getColor(colors.players[playerType].rgb, 0.2),
     );
 
-    for (let i = 0; i < hive.drones.length; i++) {
-      drawDrone(playerType, hive.drones[i]);
-    }
-
     for (let i = 0; i < hive.knownResources.length; i++) {
       drawKnownResource(hive.knownResources[i]);
+    }
+
+    for (let i = 0; i < hive.drones.length; i++) {
+      drawDrone(playerType, hive.drones[i]);
     }
 
     for (let i = 0; i < hive.buildingRequests.length; i++) {
@@ -115,9 +121,9 @@ export default defineComponent((props: AppCanvasProps) => {
     }
 
     context.drawImage(
-      hiveSprites[hive.level],
-      Math.floor(hive.position.x - hive.radius),
-      Math.floor(hive.position.y - hive.radius),
+      hiveSprites[hive.level][getHoverableSpriteName(hive.id)],
+      hive.position.x - hive.radius,
+      hive.position.y - hive.radius,
     );
   };
 

@@ -1,4 +1,4 @@
-import { Position } from '../types';
+import { Position, IdEntity } from '../types';
 import Factories from './factories';
 
 const getColor = (data: number[], opacity = 1): string => {
@@ -44,4 +44,8 @@ const drawCircularProgress = (
   }
 };
 
-export { Factories, getColor, drawCircle, drawCircularProgress };
+const existsInArray = <T extends IdEntity>(arr: T[], id: string): boolean => {
+  return arr.some((elem) => elem.id === id);
+};
+
+export { Factories, getColor, drawCircle, drawCircularProgress, existsInArray };

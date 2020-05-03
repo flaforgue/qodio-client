@@ -1,14 +1,19 @@
 /* eslint-disable max-len */
 
 import createBaseSprite from '../create-base-sprite';
-import { BaseSprites } from 'src/types';
+import { HoverableSprite } from 'src/types';
 
-export default (): BaseSprites => {
+export default (): HoverableSprite => {
   return {
     default: createBaseSprite({
       url: '../../../../../public/images/other/known-resource.png',
-      width: 175,
-      height: 175,
+      width: 40,
+      height: 40,
+    }),
+    hover: createBaseSprite({
+      url: '../../../../../public/images/other/known-resource-hover.png',
+      width: 40,
+      height: 40,
     }),
   };
 };

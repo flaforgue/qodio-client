@@ -32,20 +32,20 @@ export default {
 
   actions: {
     wait: {
-      rgb: [103, 105, 124],
-      hex: '#67697C',
+      rgb: [173, 65, 65],
+      hex: '#AD4141',
     },
     scout: {
-      rgb: [70, 129, 137],
-      hex: '#468189',
+      rgb: [58, 183, 240],
+      hex: '#3AB7F0',
     },
     collect: {
-      rgb: [100, 113, 76],
-      hex: '#64714c',
+      rgb: [111, 202, 48],
+      hex: '#6FCA30',
     },
     build: {
-      rgb: [56, 83, 115],
-      hex: '#ae4a6f',
+      rgb: [221, 83, 45],
+      hex: '#DD532D',
     },
     attack: {
       rgb: [147, 31, 29],

@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch, watchEffect, ref } from 'vue';
+import { defineComponent, watch } from 'vue';
 import SocketIO from 'socket.io-client';
 import { DroneAction } from '../types';
 import { droneActions } from '../enums';
@@ -19,6 +19,10 @@ type AppSocketProps = {
 export default defineComponent((props: AppSocketProps, { emit }) => {
   const socket = SocketIO(props.serverUrl);
 
+  const emitMessage = (name: string, data?: unknown): void => {
+    socket.emit(name, data);
+  };
+
   const eventProxied = [
     'self.create',
     'game.create',
@@ -26,6 +30,7 @@ export default defineComponent((props: AppSocketProps, { emit }) => {
     'game.tick',
     'drone.created',
     'drone.recycled',
+    'building.created',
   ];
 
   for (let i = 0; i < eventProxied.length; i++) {
@@ -55,9 +60,7 @@ export default defineComponent((props: AppSocketProps, { emit }) => {
   for (let i = 0; i < droneActions.length; i++) {
     watch(
       () => props.dronesToEngage[droneActions[i]],
-      (newValue, prevValue) => {
-        console.log(props.dronesToEngage);
-        console.log(newValue, prevValue);
+      (newValue) => {
         if (newValue) {
           socket.emit('drone.engage', droneActions[i]);
           emit('drone-engaged', droneActions[i]);
@@ -83,5 +86,9 @@ export default defineComponent((props: AppSocketProps, { emit }) => {
   socket.on('pong', () => {
     console.debug('pong');
   });
+
+  return {
+    emitMessage,
+  };
 });
 </script>

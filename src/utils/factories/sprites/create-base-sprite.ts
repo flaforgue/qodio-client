@@ -13,6 +13,18 @@ const createFromPaths = (
 };
 
 export default (spriteOptions: SpriteOptions): CanvasImageSource => {
+  if (spriteOptions.url) {
+    const image = new Image();
+    image.src = spriteOptions.url;
+    image.width = spriteOptions.width;
+    image.height = spriteOptions.height;
+    if (spriteOptions.rotateOptions) {
+      image.style.transform = `rotate(${spriteOptions.rotateOptions.angle}deg)`;
+    }
+
+    return image;
+  }
+
   const canvas = document.createElement('canvas');
   canvas.width = spriteOptions.width;
   canvas.height = spriteOptions.height;
@@ -25,14 +37,7 @@ export default (spriteOptions: SpriteOptions): CanvasImageSource => {
     context.translate(0, 0);
   }
 
-  if (spriteOptions.url) {
-    const image = new Image();
-    image.src = spriteOptions.url;
-    image.width = spriteOptions.width;
-    image.height = spriteOptions.height;
-
-    return image;
-  } else if (spriteOptions.pathsOptions) {
+  if (spriteOptions.pathsOptions) {
     createFromPaths(context, spriteOptions.pathsOptions, spriteOptions.color);
   }
 

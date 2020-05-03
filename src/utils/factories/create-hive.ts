@@ -12,6 +12,7 @@ export default (): Hive => ({
   playerId: '',
   drones: [],
   knownResources: [],
+  nbResourcesDiscovered: 0,
   buildingRequests: [],
   collectors: [],
   stock: 0,

@@ -22,8 +22,11 @@ export type Player = {
   id: string;
 };
 
-export interface Entity {
+export interface IdEntity {
   id: string;
+}
+
+export interface Entity extends IdEntity {
   position: Position;
 }
 
@@ -45,6 +48,7 @@ export interface Hive extends PlayerEntity {
   maxPopulation: number;
   drones: Drone[];
   knownResources: Resource[];
+  nbResourcesDiscovered: number;
   collectors: Resource[];
   buildingRequests: BuildingRequest[];
   actionsNbDrones: Record<DroneAction, number>;
@@ -77,8 +81,13 @@ export type BaseSprites = {
   default: CanvasImageSource;
 };
 
+export type HoverableSprite = {
+  default: CanvasImageSource;
+  hover: CanvasImageSource;
+};
+
 export type HiveLevel = 1 | 2 | 3;
-export type HiveSprites = Record<HiveLevel, CanvasImageSource>;
+export type HiveSprites = Record<HiveLevel, HoverableSprite>;
 export type BuildingType = 'collector';
 export type BuildingRequestSprites = Record<BuildingType, CanvasImageSource>;
 export type CollectorStockLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
@@ -105,4 +114,11 @@ export type RotateOptions = {
   angle: number;
   translteX: number;
   translteY: number;
+};
+
+export type HoverableElement = {
+  id: string;
+  path: Path2D;
+  type: 'hive' | 'knownResource';
+  data: Hive | Resource;
 };

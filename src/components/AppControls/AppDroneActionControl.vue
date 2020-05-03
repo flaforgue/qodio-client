@@ -1,8 +1,8 @@
 <template>
   <div class="app-drone-action-control">
-    <app-button
+    <app-icon-button
       v-if="props.action !== 'wait'"
-      label="-"
+      icon="minus"
       :color="colors.white.hex"
       :backgroundColor="colors.actions.wait.hex"
       @click="handleDroneDisengage"
@@ -15,9 +15,9 @@
       :max="props.nbMaxDrones"
     />
 
-    <app-button
+    <app-icon-button
       v-if="props.action !== 'wait'"
-      label="+"
+      icon="plus"
       :color="colors.white.hex"
       :backgroundColor="colors.actions[props.action].hex"
       @click="handleDroneEngage"
@@ -29,7 +29,7 @@
 import { defineComponent } from 'vue';
 import { colors } from '../../enums';
 import AppProgressBar from './AppProgressBar.vue';
-import AppButton from './AppButton.vue';
+import AppIconButton from './AppIconButton.vue';
 import { DroneAction } from '../../types';
 
 type AppDroneActionControlProps = {
@@ -41,7 +41,7 @@ type AppDroneActionControlProps = {
 export default defineComponent({
   components: {
     AppProgressBar,
-    AppButton,
+    AppIconButton,
   },
 
   setup(props: AppDroneActionControlProps, { emit }) {

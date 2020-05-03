@@ -5,25 +5,29 @@
     :style="{
       backgroundColor: props.backgroundColor,
       color: props.color,
+      height: props.height,
+      width: props.width,
+      fontSize: props.fontSize,
     }"
   >
-    {{ props.label }}
+    <slot></slot>
   </button>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
 
-type AppButtonProps = {
+export interface AppButtonProps {
   backgroundColor: string;
   color: string;
   label: string;
-};
+}
 
 export default defineComponent({
-  setup(props: AppButtonProps) {
+  setup(props: AppButtonProps, { slots }) {
     return {
       props,
+      slots,
     };
   },
 });
@@ -34,8 +38,6 @@ export default defineComponent({
   color: #fff;
   font-size: 24px;
   line-height: 21px;
-  height: 30px;
-  width: 30px;
   border-radius: 30px;
   border: none;
   cursor: pointer;

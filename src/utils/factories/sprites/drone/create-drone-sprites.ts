@@ -1,26 +1,25 @@
 import { DroneSprites } from '../../../../types';
-import createOrientedDroneSprites from './create-oriented-drone-sprites';
-import { colors, droneActions } from '../../../../enums';
+import createOrientableDroneSprites from './create-orientable-drone-sprites';
+import { droneActions } from '../../../../enums';
 
 const defaultOptions = {
   height: 20,
   width: 20,
-  imageRendering: 'pixelated',
 };
 
 export default (): DroneSprites => {
   const sprites = {} as DroneSprites;
 
   for (let i = 0; i < droneActions.length; i++) {
-    sprites[droneActions[i]] = createOrientedDroneSprites({
+    sprites[droneActions[i]] = createOrientableDroneSprites({
       ...defaultOptions,
-      color: colors.actions[droneActions[i]].hex,
+      url: `./../../../../../public/images/drones/${droneActions[i]}`,
     });
   }
 
-  sprites.ennemy = createOrientedDroneSprites({
+  sprites.ennemy = createOrientableDroneSprites({
     ...defaultOptions,
-    color: colors.players.ennemy.hex,
+    url: './../../../../../public/images/drones/ennemy',
   });
 
   return sprites;

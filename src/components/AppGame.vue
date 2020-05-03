@@ -6,15 +6,28 @@
       width: `${board.width}px`,
     }"
   >
-    <AppCanvas
-      ref="canvasComponent"
+    <AppGameCanvas
+      ref="appGameCanvasComponent"
       :height="board.height"
       :width="board.width"
+      :hoveredElement="hoveredElement"
+      :activeElement="activeElement"
       :resources="board.resources"
       :playerHive="playerHive"
       :otherHives="otherHives"
     />
+    <AppInteractionsCanvas
+      ref="appInteractionsCanvasComponent"
+      :height="board.height"
+      :width="board.width"
+      :playerHive="playerHive"
+      :hoveredElement="hoveredElement"
+      :activeElement="activeElement"
+      @hoveredElementChanged="handleHoveredElementChanged"
+      @activeElementChanged="handleActiveElementChanged"
+    />
     <AppSocket
+      ref="appSocketComponent"
       :serverUrl="props.serverUrl"
       :nbDronesToCreate="nbDronesToCreate"
       :nbDronesToRecycle="nbDronesToRecycle"
@@ -31,20 +44,23 @@
     />
     <AppControls
       :hive="playerHive"
+      :activeElement="activeElement"
       @drone-create="handleDroneCreate"
       @drone-recycle="handleDroneRecycle"
       @drone-engage="handleDroneEngage"
       @drone-disengage="handleDroneDisengage"
+      @known-resource-build="handleKnownResourceBuild"
     />
   </div>
 </template>
 
 <script lang="ts">
-import AppCanvas from './AppCanvas.vue';
+import AppGameCanvas from './AppGameCanvas.vue';
+import AppInteractionsCanvas from './AppInteractionsCanvas.vue';
 import AppSocket from './AppSocket.vue';
 import AppControls from './AppControls.vue';
 import { defineComponent, ref, reactive, nextTick } from 'vue';
-import { Player, Game, Resource, Board, Hive, DroneAction } from '../types';
+import { Player, Game, Resource, Board, Hive, DroneAction, HoverableElement } from '../types';
 import { Factories } from '../utils';
 
 export default defineComponent({
@@ -52,18 +68,26 @@ export default defineComponent({
     serverUrl: String,
   },
   components: {
-    AppCanvas,
+    AppGameCanvas,
+    AppInteractionsCanvas,
     AppSocket,
     AppControls,
   },
   setup(props) {
-    const canvasComponent = ref();
+    const appSocketComponent = ref();
+    const appGameCanvasComponent = ref();
+    const appInteractionsCanvasComponent = ref();
+    const hoveredElement = ref<HoverableElement>();
+    const activeElement = ref<HoverableElement>();
     const board = reactive<Board>(Factories.createBoard());
     const playerHive = ref<Hive>(Factories.createHive());
     const knownResources = ref<Resource[]>([]);
     const otherHives = reactive<Hive[]>([]);
     const nbDronesToCreate = ref<number>(0);
     const nbDronesToRecycle = ref<number>(0);
+    let nbResourcesDiscovered = 0;
+    let nbBuildingRequests = 0;
+
     const dronesToEngage: Record<DroneAction, boolean> = reactive({
       wait: false,
       scout: false,
@@ -82,6 +106,7 @@ export default defineComponent({
     let playerId: string;
     const handleSelfCreate = (player: Player): void => {
       playerId = player.id;
+      appInteractionsCanvasComponent.value.drawHive(player.hive);
     };
 
     const handleGameCreate = (game: Game): void => {
@@ -109,8 +134,22 @@ export default defineComponent({
           }
         }
 
-        if (canvasComponent.value) {
-          nextTick().then(() => canvasComponent.value.redraw());
+        if (appInteractionsCanvasComponent.value) {
+          if (playerHive.value.nbResourcesDiscovered > nbResourcesDiscovered) {
+            appInteractionsCanvasComponent.value.drawKnownResources(
+              playerHive.value.knownResources,
+            );
+            nbResourcesDiscovered = playerHive.value.nbResourcesDiscovered;
+          }
+
+          if (nbBuildingRequests < playerHive.value.buildingRequests.length) {
+            nextTick().then(() => appInteractionsCanvasComponent.value.redraw());
+            nbBuildingRequests = playerHive.value.buildingRequests.length;
+          }
+        }
+
+        if (appGameCanvasComponent.value) {
+          nextTick().then(() => appGameCanvasComponent.value.redraw());
         }
 
         isLocked.value = false;
@@ -155,9 +194,28 @@ export default defineComponent({
       dronesToDisengage[action] = false;
     };
 
+    const handleHoveredElementChanged = (element: HoverableElement): void => {
+      hoveredElement.value = element;
+    };
+
+    const handleActiveElementChanged = (element: HoverableElement): void => {
+      activeElement.value = element;
+    };
+
+    const handleKnownResourceBuild = (knownResourceId: string): void => {
+      appSocketComponent.value.emitMessage('building.create', knownResourceId);
+      activeElement.value = undefined;
+    };
+
     return {
       props,
-      canvasComponent,
+      appSocketComponent,
+      appInteractionsCanvasComponent,
+      hoveredElement,
+      handleHoveredElementChanged,
+      activeElement,
+      handleActiveElementChanged,
+      appGameCanvasComponent,
       board,
       handleSelfCreate,
       handleGameCreate,
@@ -170,17 +228,19 @@ export default defineComponent({
       handleDroneCreate,
       nbDronesToCreate,
       handleDroneCreated,
-      //drone recycle
+      // drone recycle
       handleDroneRecycle,
       nbDronesToRecycle,
       handleDroneRecycled,
-      // drone engagement
+      // drone engagement / disengagement
       dronesToEngage,
       dronesToDisengage,
       handleDroneEngage,
       handleDroneDisengage,
       handleDroneEngaged,
       handleDroneDisengaged,
+      // Build
+      handleKnownResourceBuild,
     };
   },
 });
@@ -189,7 +249,11 @@ export default defineComponent({
 .app-game {
   padding: 80px 80px 80px 330px;
   background-color: #333;
-  max-width: auto;
   width: auto;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.app-canvas {
+  position: absolute;
 }
 </style>
