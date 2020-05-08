@@ -7,17 +7,16 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import { Hive, HoverableElement, Resource } from '../types';
-import { existsInArray } from '../utils';
+import { removeFromArrayById } from '../utils';
 
-const hitboxColors = 'rgba(255, 0, 0, 0.5)';
+const shouldDrawHitboxes = false;
+const hitboxColor = 'rgba(255, 0, 0, 0.3)';
 
 type AppInteractionsCanvasProps = {
   height: number;
   width: number;
   hoveredElement: HoverableElement;
   activeElement: HoverableElement;
-  playerHive: Hive;
-  knownResources: Resource[];
 };
 
 export default defineComponent((props: AppInteractionsCanvasProps, { emit }) => {
@@ -56,57 +55,67 @@ export default defineComponent((props: AppInteractionsCanvasProps, { emit }) => 
     }
   });
 
-  const drawHive = (hive: Hive): void => {
-    if (!existsInArray(hoverableElements, hive.id)) {
-      const hitbox = new Path2D();
-      hitbox.arc(hive.position.x, hive.position.y, hive.radius, 0, 2 * Math.PI);
-      context.fillStyle = hitboxColors;
+  const addHive = (hive: Hive): void => {
+    removeFromArrayById(hoverableElements, hive.id);
+
+    const hitbox = new Path2D();
+    hitbox.arc(hive.position.x, hive.position.y, hive.radius, 0, 2 * Math.PI);
+    hoverableElements.push({
+      path: hitbox,
+      id: hive.id,
+      type: 'hive',
+      data: hive,
+    });
+
+    if (shouldDrawHitboxes) {
+      context.fillStyle = hitboxColor;
       context.fill(hitbox);
-      hoverableElements.push({
-        path: hitbox,
-        id: hive.id,
-        type: 'hive',
-        data: hive,
-      });
     }
   };
 
-  const drawKnownResource = (knownResource: Resource): void => {
-    if (!existsInArray(hoverableElements, knownResource.id)) {
-      const hitbox = new Path2D();
-      hitbox.arc(knownResource.position.x, knownResource.position.y, 20, 0, 2 * Math.PI);
-      context.fillStyle = hitboxColors;
+  const addKnownResource = (resource: Resource): void => {
+    removeFromArrayById(hoverableElements, resource.id);
+
+    const hitbox = new Path2D();
+    hitbox.arc(resource.position.x, resource.position.y, 20, 0, 2 * Math.PI);
+    hoverableElements.push({
+      path: hitbox,
+      id: resource.id,
+      type: 'knownResource',
+      data: resource,
+    });
+
+    if (shouldDrawHitboxes) {
+      context.fillStyle = hitboxColor;
       context.fill(hitbox);
-      hoverableElements.push({
-        path: hitbox,
-        id: knownResource.id,
-        type: 'knownResource',
-        data: knownResource,
-      });
     }
   };
 
-  const drawKnownResources = (knownResources: Resource[]): void => {
-    for (let i = 0; i < knownResources.length; i++) {
-      drawKnownResource(knownResources[i]);
-    }
-  };
-
-  const redraw = (): void => {
-    hoverableElements.length = 0;
+  const refresh = (): void => {
     context.clearRect(0, 0, props.width, props.height);
-    drawHive(props.playerHive);
-    drawKnownResources(props.playerHive.knownResources);
-    emit('hoveredElementChanged', null);
-    emit('activeElementChanged', null);
+    for (let i = 0; i < hoverableElements.length; i++) {
+      const element = hoverableElements[i];
+      if (element.type === 'hive') {
+        addHive(element.data as Hive);
+      } else if (element.type === 'knownResource') {
+        addKnownResource(element.data as Resource);
+      }
+    }
+  };
+
+  const removeKnownResource = (knownResourceId: string): void => {
+    removeFromArrayById(hoverableElements, knownResourceId);
+    if (shouldDrawHitboxes) {
+      refresh();
+    }
   };
 
   return {
     props,
     canvas,
-    drawHive,
-    drawKnownResources,
-    redraw,
+    addHive,
+    addKnownResource,
+    removeKnownResource,
   };
 });
 </script>

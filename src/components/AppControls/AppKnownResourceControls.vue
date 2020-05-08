@@ -5,10 +5,11 @@
     <app-icon-button
       :backgroundColor="colors.actions.collect.hex"
       :color="colors.white.hex"
+      :disabled="props.currentStock < buildingResourceCost"
       icon="build"
-      @click="handleKnownResourceBuild"
+      label="Build"
+      @app-click="handleBuildingCreate"
     />
-    <span class="button-label">Build</span>
   </div>
 </template>
 
@@ -17,30 +18,26 @@ import { defineComponent } from 'vue';
 import { Resource } from 'src/types';
 import AppIconButton from './AppIconButton.vue';
 import { colors } from '../../enums';
+import config from '../../config';
 
 type AppKnownResourceControlsProps = {
   data: Resource;
+  currentStock: number;
 };
 
 export default defineComponent({
   components: { AppIconButton },
   setup(props: AppKnownResourceControlsProps, { emit }) {
-    const handleKnownResourceBuild = (): void => {
-      emit('build', props.data.id);
+    const handleBuildingCreate = (): void => {
+      emit('building-create', props.data.id);
     };
 
     return {
       props,
       colors,
-      handleKnownResourceBuild,
+      handleBuildingCreate,
+      buildingResourceCost: config.buildingResourceCost,
     };
   },
 });
 </script>
-<style lang="scss" scoped>
-.button-label {
-  vertical-align: super;
-  margin-left: 10px;
-  color: #fff;
-}
-</style>

@@ -6,7 +6,7 @@
       width: `${board.width}px`,
     }"
   >
-    <AppGameCanvas
+    <app-game-canvas
       ref="appGameCanvasComponent"
       :height="board.height"
       :width="board.width"
@@ -16,40 +16,34 @@
       :playerHive="playerHive"
       :otherHives="otherHives"
     />
-    <AppInteractionsCanvas
+    <app-interactions-canvas
       ref="appInteractionsCanvasComponent"
       :height="board.height"
       :width="board.width"
-      :playerHive="playerHive"
       :hoveredElement="hoveredElement"
       :activeElement="activeElement"
       @hoveredElementChanged="handleHoveredElementChanged"
       @activeElementChanged="handleActiveElementChanged"
     />
-    <AppSocket
+    <app-socket
       ref="appSocketComponent"
       :serverUrl="props.serverUrl"
-      :nbDronesToCreate="nbDronesToCreate"
-      :nbDronesToRecycle="nbDronesToRecycle"
-      :dronesToEngage="dronesToEngage"
-      :dronesToDisengage="dronesToDisengage"
       @self-create="handleSelfCreate"
       @game-create="handleGameCreate"
       @game-stop="handleGameStop"
       @game-tick="handleGameTick"
-      @drone-created="handleDroneCreated"
-      @drone-recycled="handleDroneRecycled"
-      @drone-engaged="handleDroneEngaged"
-      @drone-disengaged="handleDroneDisengaged"
+      @knownResource-created="handleKnownResourceCreated"
+      @building-created="handleBuildingCreated"
     />
-    <AppControls
+    <app-controls
       :hive="playerHive"
       :activeElement="activeElement"
       @drone-create="handleDroneCreate"
       @drone-recycle="handleDroneRecycle"
       @drone-engage="handleDroneEngage"
       @drone-disengage="handleDroneDisengage"
-      @known-resource-build="handleKnownResourceBuild"
+      @building-create="handleBuildingCreate"
+      @hive-upgrade="handleHiveUpgrade"
     />
   </div>
 </template>
@@ -83,30 +77,13 @@ export default defineComponent({
     const playerHive = ref<Hive>(Factories.createHive());
     const knownResources = ref<Resource[]>([]);
     const otherHives = reactive<Hive[]>([]);
-    const nbDronesToCreate = ref<number>(0);
-    const nbDronesToRecycle = ref<number>(0);
-    let nbResourcesDiscovered = 0;
-    let nbBuildingRequests = 0;
-
-    const dronesToEngage: Record<DroneAction, boolean> = reactive({
-      wait: false,
-      scout: false,
-      collect: false,
-      build: false,
-    });
-    const dronesToDisengage: Record<DroneAction, boolean> = reactive({
-      wait: false,
-      scout: false,
-      collect: false,
-      build: false,
-    });
     const isLocked = ref<boolean>();
     isLocked.value = false;
 
     let playerId: string;
     const handleSelfCreate = (player: Player): void => {
       playerId = player.id;
-      appInteractionsCanvasComponent.value.drawHive(player.hive);
+      appInteractionsCanvasComponent.value.addHive(player.hive);
     };
 
     const handleGameCreate = (game: Game): void => {
@@ -134,20 +111,6 @@ export default defineComponent({
           }
         }
 
-        if (appInteractionsCanvasComponent.value) {
-          if (playerHive.value.nbResourcesDiscovered > nbResourcesDiscovered) {
-            appInteractionsCanvasComponent.value.drawKnownResources(
-              playerHive.value.knownResources,
-            );
-            nbResourcesDiscovered = playerHive.value.nbResourcesDiscovered;
-          }
-
-          if (nbBuildingRequests < playerHive.value.buildingRequests.length) {
-            nextTick().then(() => appInteractionsCanvasComponent.value.redraw());
-            nbBuildingRequests = playerHive.value.buildingRequests.length;
-          }
-        }
-
         if (appGameCanvasComponent.value) {
           nextTick().then(() => appGameCanvasComponent.value.redraw());
         }
@@ -157,41 +120,19 @@ export default defineComponent({
     };
 
     const handleDroneCreate = (): void => {
-      if (nbDronesToCreate.value < 15) {
-        nbDronesToCreate.value++;
-      }
-    };
-
-    const handleDroneCreated = (): void => {
-      if (nbDronesToCreate.value > 0) {
-        nbDronesToCreate.value--;
-      }
+      appSocketComponent.value.emitMessage('drone.create');
     };
 
     const handleDroneRecycle = (): void => {
-      nbDronesToRecycle.value++;
-    };
-
-    const handleDroneRecycled = (): void => {
-      if (nbDronesToCreate.value > 0) {
-        nbDronesToRecycle.value--;
-      }
+      appSocketComponent.value.emitMessage('drone.recycle');
     };
 
     const handleDroneEngage = (action: DroneAction): void => {
-      dronesToEngage[action] = true;
+      appSocketComponent.value.emitMessage('drone.engage', action);
     };
 
     const handleDroneDisengage = (action: DroneAction): void => {
-      dronesToDisengage[action] = true;
-    };
-
-    const handleDroneEngaged = (action: DroneAction): void => {
-      dronesToEngage[action] = false;
-    };
-
-    const handleDroneDisengaged = (action: DroneAction): void => {
-      dronesToDisengage[action] = false;
+      appSocketComponent.value.emitMessage('drone.disengage', action);
     };
 
     const handleHoveredElementChanged = (element: HoverableElement): void => {
@@ -202,9 +143,21 @@ export default defineComponent({
       activeElement.value = element;
     };
 
-    const handleKnownResourceBuild = (knownResourceId: string): void => {
+    const handleKnownResourceCreated = (resource: Resource): void => {
+      appInteractionsCanvasComponent.value.addKnownResource(resource);
+    };
+
+    const handleBuildingCreate = (knownResourceId: string): void => {
       appSocketComponent.value.emitMessage('building.create', knownResourceId);
       activeElement.value = undefined;
+    };
+
+    const handleBuildingCreated = (knownResourceId: string): void => {
+      appInteractionsCanvasComponent.value.removeKnownResource(knownResourceId);
+    };
+
+    const handleHiveUpgrade = (): void => {
+      appSocketComponent.value.emitMessage('hive.upgrade');
     };
 
     return {
@@ -224,23 +177,19 @@ export default defineComponent({
       knownResources,
       playerHive,
       otherHives,
-      // drone create
+      // Drone create
       handleDroneCreate,
-      nbDronesToCreate,
-      handleDroneCreated,
-      // drone recycle
+      // Drone recycle
       handleDroneRecycle,
-      nbDronesToRecycle,
-      handleDroneRecycled,
-      // drone engagement / disengagement
-      dronesToEngage,
-      dronesToDisengage,
+      // Drone engagement / disengagement
       handleDroneEngage,
       handleDroneDisengage,
-      handleDroneEngaged,
-      handleDroneDisengaged,
       // Build
-      handleKnownResourceBuild,
+      handleBuildingCreate,
+      handleBuildingCreated,
+      handleKnownResourceCreated,
+      // Hive
+      handleHiveUpgrade,
     };
   },
 });

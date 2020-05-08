@@ -151,6 +151,7 @@ export default defineComponent((props: AppGameCanvasProps) => {
 </script>
 <style lang="scss" scoped>
 canvas {
+  cursor: cell;
   background-image: url('/public/images/backgrounds/desert2.jpg');
 }
 </style>

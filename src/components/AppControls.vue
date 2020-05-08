@@ -46,12 +46,14 @@
         <app-known-resource-controls
           v-if="props.activeElement.type === 'knownResource'"
           :data="props.activeElement.data"
-          @build="handleKnownResourceBuild"
+          :currentStock="props.hive.stock"
+          @building-create="handleBuildingCreate"
         />
 
         <app-hive-controls
           v-else-if="props.activeElement.type === 'hive'"
           :data="props.activeElement.data"
+          @hive-upgrade="handleHiveUpgrade"
         />
       </div>
     </div>
@@ -100,8 +102,12 @@ export default defineComponent({
       emit('drone-disengage', action);
     };
 
-    const handleKnownResourceBuild = (knownResourceId: string): void => {
-      emit('known-resource-build', knownResourceId);
+    const handleBuildingCreate = (knownResourceId: string): void => {
+      emit('building-create', knownResourceId);
+    };
+
+    const handleHiveUpgrade = (): void => {
+      emit('hive-upgrade');
     };
 
     return {
@@ -112,7 +118,8 @@ export default defineComponent({
       handleDroneRecycle,
       handleDroneEngage,
       handleDroneDisengage,
-      handleKnownResourceBuild,
+      handleBuildingCreate,
+      handleHiveUpgrade,
       emptyResourceColor: getColor(colors.actions.collect.rgb, 0.2),
       emptyPopulationColor: getColor(colors.players.self.rgb, 0.2),
     };

@@ -10,8 +10,6 @@ import { droneActions } from '../enums';
 
 type AppSocketProps = {
   serverUrl: string;
-  nbDronesToCreate: number;
-  nbDronesToRecycle: number;
   dronesToEngage: Record<DroneAction, boolean>;
   dronesToDisengage: Record<DroneAction, boolean>;
 };
@@ -28,8 +26,6 @@ export default defineComponent((props: AppSocketProps, { emit }) => {
     'game.create',
     'game.stop',
     'game.tick',
-    'drone.created',
-    'drone.recycled',
     'building.created',
     'knownResource.created',
   ];
@@ -38,46 +34,6 @@ export default defineComponent((props: AppSocketProps, { emit }) => {
     socket.on(eventProxied[i], (data) => {
       emit(eventProxied[i].replace('.', '-'), data);
     });
-  }
-
-  watch(
-    () => props.nbDronesToCreate,
-    (newValue, prevValue) => {
-      if (newValue > prevValue) {
-        socket.emit('drone.create');
-      }
-    },
-  );
-
-  watch(
-    () => props.nbDronesToRecycle,
-    (newValue, prevValue) => {
-      if (newValue > prevValue) {
-        socket.emit('drone.recycle');
-      }
-    },
-  );
-
-  for (let i = 0; i < droneActions.length; i++) {
-    watch(
-      () => props.dronesToEngage[droneActions[i]],
-      (newValue) => {
-        if (newValue) {
-          socket.emit('drone.engage', droneActions[i]);
-          emit('drone-engaged', droneActions[i]);
-        }
-      },
-    );
-
-    watch(
-      () => props.dronesToDisengage[droneActions[i]],
-      (value) => {
-        if (value) {
-          socket.emit('drone.disengage', droneActions[i]);
-          emit('drone-disengaged', droneActions[i]);
-        }
-      },
-    );
   }
 
   socket.on('ping', () => {
