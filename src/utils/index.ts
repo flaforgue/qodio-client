@@ -48,4 +48,19 @@ const existsInArray = <T extends IdEntity>(arr: T[], id: string): boolean => {
   return arr.some((elem) => elem.id === id);
 };
 
-export { Factories, getColor, drawCircle, drawCircularProgress, existsInArray };
+const removeFromArrayById = <T extends IdEntity>(arr: T[], id: string): T | undefined => {
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i].id === id) {
+      return arr.splice(i, 1)[0];
+    }
+  }
+};
+
+export {
+  Factories,
+  getColor,
+  drawCircle,
+  drawCircularProgress,
+  existsInArray,
+  removeFromArrayById,
+};
