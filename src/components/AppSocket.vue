@@ -31,6 +31,7 @@ export default defineComponent((props: AppSocketProps, { emit }) => {
     'drone.created',
     'drone.recycled',
     'building.created',
+    'knownResource.created',
   ];
 
   for (let i = 0; i < eventProxied.length; i++) {
