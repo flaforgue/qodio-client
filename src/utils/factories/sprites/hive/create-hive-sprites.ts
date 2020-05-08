@@ -10,12 +10,12 @@ export default (): HiveSprites => {
   for (let i = 0; i < sizes.length; i++) {
     sprites[i] = {
       default: createBaseSprite({
-        url: '../../../../../public/images/buildings/base/base-1.png',
+        url: `../../../../../public/images/buildings/base/base-${i}.png`,
         width: sizes[i],
         height: sizes[i],
       }),
       hover: createBaseSprite({
-        url: '../../../../../public/images/buildings/base/base-1-hover.png',
+        url: `../../../../../public/images/buildings/base/base-${i}-hover.png`,
         width: sizes[i],
         height: sizes[i],
       }),

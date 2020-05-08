@@ -19,21 +19,27 @@
 import { defineComponent } from 'vue';
 import { Resource } from 'src/types';
 import config from '../../config';
+import colors from '../../enums/colors';
+import AppIconButton from './AppIconButton.vue';
 
 type AppHiveControlsProps = {
   data: Resource;
 };
 
-export default defineComponent((props: AppHiveControlsProps, { emit }) => {
-  const handleHiveUpgrade = (): void => {
-    emit('hive-upgrade');
-  };
+export default defineComponent({
+  components: { AppIconButton },
+  setup(props: AppHiveControlsProps, { emit }) {
+    const handleHiveUpgrade = (): void => {
+      emit('hive-upgrade');
+    };
 
-  return {
-    props,
-    handleHiveUpgrade,
-    upgradeResourceCost: config.upgradeResourceCost,
-  };
+    return {
+      props,
+      colors,
+      handleHiveUpgrade,
+      upgradeResourceCost: config.upgradeResourceCost,
+    };
+  },
 });
 </script>
 
