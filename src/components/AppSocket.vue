@@ -3,10 +3,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue';
+import { defineComponent } from 'vue';
 import SocketIO from 'socket.io-client';
 import { DroneAction } from '../types';
-import { droneActions } from '../enums';
 
 type AppSocketProps = {
   serverUrl: string;
@@ -28,6 +27,7 @@ export default defineComponent((props: AppSocketProps, { emit }) => {
     'game.tick',
     'building.created',
     'knownResource.created',
+    'hive.upgraded',
   ];
 
   for (let i = 0; i < eventProxied.length; i++) {

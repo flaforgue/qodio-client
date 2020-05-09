@@ -7,14 +7,14 @@
           class="app-control small-btn"
           :color="colors.black.hex"
           :backgroundColor="colors.grey.hex"
-          @click="handleDroneRecycle"
+          @app-click="handleDroneRecycle"
         />
         <app-icon-button
           icon="plus"
           class="app-control small-btn"
           :color="colors.white.hex"
           :backgroundColor="colors.players.self.hex"
-          @click="handleDroneCreate"
+          @app-click="handleDroneCreate"
         />
         <app-progress-bar
           class="app-control"

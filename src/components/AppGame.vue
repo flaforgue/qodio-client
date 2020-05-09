@@ -34,6 +34,7 @@
       @game-tick="handleGameTick"
       @knownResource-created="handleKnownResourceCreated"
       @building-created="handleBuildingCreated"
+      @hive-upgraded="handleHiveUpgraded"
     />
     <app-controls
       :hive="playerHive"
@@ -160,6 +161,10 @@ export default defineComponent({
       appSocketComponent.value.emitMessage('hive.upgrade');
     };
 
+    const handleHiveUpgraded = (hive: Hive): void => {
+      appInteractionsCanvasComponent.value.addHive(hive);
+    };
+
     return {
       props,
       appSocketComponent,
@@ -190,6 +195,7 @@ export default defineComponent({
       handleKnownResourceCreated,
       // Hive
       handleHiveUpgrade,
+      handleHiveUpgraded,
     };
   },
 });

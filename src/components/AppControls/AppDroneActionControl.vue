@@ -5,7 +5,7 @@
       icon="minus"
       :color="colors.white.hex"
       :backgroundColor="colors.actions.wait.hex"
-      @click="handleDroneDisengage"
+      @app-click="handleDroneDisengage"
     />
 
     <app-progress-bar
@@ -20,7 +20,7 @@
       icon="plus"
       :color="colors.white.hex"
       :backgroundColor="colors.actions[props.action].hex"
-      @click="handleDroneEngage"
+      @app-click="handleDroneEngage"
     />
   </div>
 </template>

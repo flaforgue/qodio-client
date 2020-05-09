@@ -60,12 +60,18 @@ export default defineComponent((props: AppInteractionsCanvasProps, { emit }) => 
 
     const hitbox = new Path2D();
     hitbox.arc(hive.position.x, hive.position.y, hive.radius, 0, 2 * Math.PI);
-    hoverableElements.push({
+    const hoverableElement = {
       path: hitbox,
       id: hive.id,
-      type: 'hive',
+      type: 'hive' as 'hive',
       data: hive,
-    });
+    };
+
+    hoverableElements.push(hoverableElement);
+
+    if (props.activeElement?.id === hoverableElement.id) {
+      emit('activeElementChanged', hoverableElement);
+    }
 
     if (shouldDrawHitboxes) {
       context.fillStyle = hitboxColor;

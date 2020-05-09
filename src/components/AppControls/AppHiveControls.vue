@@ -7,7 +7,7 @@
     <app-icon-button
       :backgroundColor="colors.players.self.hex"
       :color="colors.white.hex"
-      :disabled="props.currentStock < upgradeResourceCost"
+      :disabled="props.currentStock < upgradeResourceCost || props.data.level !== 1"
       icon="build"
       label="Upgrade"
       @app-click="handleHiveUpgrade"
@@ -17,13 +17,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { Resource } from 'src/types';
+import { Hive } from 'src/types';
 import config from '../../config';
 import colors from '../../enums/colors';
 import AppIconButton from './AppIconButton.vue';
 
 type AppHiveControlsProps = {
-  data: Resource;
+  data: Hive;
 };
 
 export default defineComponent({

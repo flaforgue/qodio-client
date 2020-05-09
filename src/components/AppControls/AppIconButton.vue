@@ -3,7 +3,9 @@
     <app-button height="30px" width="30px" v-bind="props">
       <img height="30" width="30" :src="`/public/images/icons/${props.icon}.png`" />
     </app-button>
-    <span v-if="props.label" class="button-label">{{ props.label }}</span>
+    <span :class="{ disabled: props.disabled }" v-if="props.label" class="button-label">
+      {{ props.label }}
+    </span>
   </div>
 </template>
 
@@ -39,5 +41,10 @@ img {
   color: #fff;
   position: relative;
   top: -2px;
+
+  &.disabled {
+    color: #999;
+    cursor: not-allowed;
+  }
 }
 </style>
