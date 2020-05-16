@@ -1,37 +1,37 @@
-import { SpriteOptions, OrientableSprite } from '../types';
-import createBaseSprite from './create-base-sprite';
+import { ImageSpriteOptions, OrientableSprite } from 'src/types';
+import { createSpriteFromImage } from 'src/utils';
 
-export default (defaultOptions: Omit<SpriteOptions, 'paths'>): OrientableSprite => {
+export default (defaultOptions: ImageSpriteOptions): OrientableSprite => {
   return {
-    up: createBaseSprite({
+    up: createSpriteFromImage({
       ...defaultOptions,
       url: `${defaultOptions.url}/up.png`,
     }),
-    upright: createBaseSprite({
+    upright: createSpriteFromImage({
       ...defaultOptions,
       url: `${defaultOptions.url}/upright.png`,
     }),
-    right: createBaseSprite({
+    right: createSpriteFromImage({
       ...defaultOptions,
       url: `${defaultOptions.url}/right.png`,
     }),
-    downright: createBaseSprite({
+    downright: createSpriteFromImage({
       ...defaultOptions,
       url: `${defaultOptions.url}/downright.png`,
     }),
-    down: createBaseSprite({
+    down: createSpriteFromImage({
       ...defaultOptions,
       url: `${defaultOptions.url}/down.png`,
     }),
-    downleft: createBaseSprite({
+    downleft: createSpriteFromImage({
       ...defaultOptions,
       url: `${defaultOptions.url}/downleft.png`,
     }),
-    left: createBaseSprite({
+    left: createSpriteFromImage({
       ...defaultOptions,
       url: `${defaultOptions.url}/left.png`,
     }),
-    upleft: createBaseSprite({
+    upleft: createSpriteFromImage({
       ...defaultOptions,
       url: `${defaultOptions.url}/upleft.png`,
     }),

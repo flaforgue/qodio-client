@@ -55,8 +55,8 @@ import AppInteractionsCanvas from './canvas/app-interactions-canvas.vue';
 import AppSocket from './app-socket.vue';
 import AppMainMenu from './user-interface/app-main-menu.vue';
 import { defineComponent, ref, reactive, nextTick } from 'vue';
-import { Player, Game, Resource, Board, Hive, DroneAction, HoverableElement } from '../types';
-import Factories from '../factories';
+import { Player, Game, Resource, Board, Hive, DroneAction, HoverableElement } from 'src/types';
+import Factories from 'src/factories';
 
 export default defineComponent({
   props: {

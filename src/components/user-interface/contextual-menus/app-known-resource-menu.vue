@@ -17,8 +17,8 @@
 import { defineComponent } from 'vue';
 import { Resource } from 'src/types';
 import AppIconButton from '../shared/app-icon-button.vue';
-import { colors } from '../../../enums';
-import config from '../../../config';
+import { colors } from 'src/enums';
+import config from 'src/config';
 
 type AppKnownResourceMenuProps = {
   data: Resource;

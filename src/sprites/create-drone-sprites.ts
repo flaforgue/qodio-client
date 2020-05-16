@@ -1,6 +1,6 @@
-import { DroneSprites } from '../types';
+import { DroneSprites } from 'src/types';
 import createOrientableDroneSprites from './create-orientable-sprites';
-import { droneActions } from '../enums';
+import { droneActions } from 'src/enums';
 
 const defaultOptions = {
   height: 20,
@@ -13,13 +13,13 @@ export default (): DroneSprites => {
   for (let i = 0; i < droneActions.length; i++) {
     sprites[droneActions[i]] = createOrientableDroneSprites({
       ...defaultOptions,
-      url: `./../../../../../public/images/drones/${droneActions[i]}`,
+      url: `/public/images/drones/${droneActions[i]}`,
     });
   }
 
   sprites.ennemy = createOrientableDroneSprites({
     ...defaultOptions,
-    url: './../../../../../public/images/drones/ennemy',
+    url: '/public/images/drones/ennemy',
   });
 
   return sprites;

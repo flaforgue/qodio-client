@@ -104,14 +104,17 @@ export type PathOptions = {
   color: string;
 };
 
-export type SpriteOptions = {
+export type ImageSpriteOptions = {
   width: number;
   height: number;
-  color?: string;
-  url?: string;
-  pathsOptions?: PathOptions[];
+  url: string;
   rotateOptions?: RotateOptions;
-  imageRendering?: string;
+};
+
+export type CanvasSpriteOptions = {
+  width: number;
+  height: number;
+  drawFunction: (context: CanvasRenderingContext2D) => void;
 };
 
 export type RotateOptions = {

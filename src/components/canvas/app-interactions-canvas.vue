@@ -6,8 +6,8 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { Hive, HoverableElement, Resource } from '../../types';
-import { removeFromArrayById } from '../../utils';
+import { Hive, HoverableElement, Resource } from 'src/types';
+import { removeFromArrayById } from 'src/utils';
 
 const shouldDrawHitboxes = false;
 const hitboxColor = 'rgba(255, 0, 0, 0.3)';

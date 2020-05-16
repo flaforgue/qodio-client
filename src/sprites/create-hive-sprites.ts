@@ -1,6 +1,4 @@
-/* eslint-disable max-len */
-
-import createBaseSprite from './create-base-sprite';
+import { createSpriteFromImage } from 'src/utils';
 import { HiveSprites } from 'src/types';
 
 export default (): HiveSprites => {
@@ -9,13 +7,13 @@ export default (): HiveSprites => {
 
   for (let i = 1; i < sizes.length + 1; i++) {
     sprites[i] = {
-      default: createBaseSprite({
-        url: `../../../../../public/images/buildings/base/base-${i}.png`,
+      default: createSpriteFromImage({
+        url: `/public/images/buildings/base/base-${i}.png`,
         width: sizes[i],
         height: sizes[i],
       }),
-      hover: createBaseSprite({
-        url: `../../../../../public/images/buildings/base/base-${i}-hover.png`,
+      hover: createSpriteFromImage({
+        url: `/public/images/buildings/base/base-${i}-hover.png`,
         width: sizes[i],
         height: sizes[i],
       }),

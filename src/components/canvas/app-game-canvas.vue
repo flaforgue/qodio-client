@@ -6,10 +6,16 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { Hive, Drone, Resource, PlayerType, BuildingRequest, HoverableElement } from '../../types';
-import { drawCircle, getColor, drawCircularProgress } from '../../utils';
-import { colors } from '../../enums';
-import Factory from '../../factories';
+import { Hive, Drone, Resource, PlayerType, BuildingRequest, HoverableElement } from 'src/types';
+import { drawCircle, getColor, drawCircularProgress } from 'src/utils';
+import { colors } from 'src/enums';
+import {
+  createHiveSprites,
+  createDroneSprites,
+  createKnownResourceSprites,
+  createBuildingRequestSprites,
+  createCollectorSprites,
+} from 'src/sprites';
 
 type AppGameCanvasProps = {
   height: number;
@@ -22,11 +28,11 @@ type AppGameCanvasProps = {
 };
 
 export default defineComponent((props: AppGameCanvasProps) => {
-  const hiveSprites = Factory.createHiveSprites();
-  const droneSprites = Factory.createDroneSprites();
-  const knownResourceSprites = Factory.createKnownResourceSprites();
-  const buildingRequestSprites = Factory.createBuildingRequestSprites();
-  const collectorSprites = Factory.createCollectorSprites();
+  const hiveSprites = createHiveSprites();
+  const droneSprites = createDroneSprites();
+  const knownResourceSprites = createKnownResourceSprites();
+  const buildingRequestSprites = createBuildingRequestSprites();
+  const collectorSprites = createCollectorSprites();
   const canvas = ref<HTMLCanvasElement>();
   let context: CanvasRenderingContext2D;
 

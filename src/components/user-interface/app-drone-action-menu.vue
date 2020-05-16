@@ -30,10 +30,10 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { colors } from '../../enums';
+import { colors } from 'src/enums';
 import AppProgressBar from './shared/app-progress-bar.vue';
 import AppIconButton from './shared/app-icon-button.vue';
-import { DroneAction } from '../../types';
+import { DroneAction } from 'src/types';
 
 type AppDroneActionControlProps = {
   action: DroneAction;

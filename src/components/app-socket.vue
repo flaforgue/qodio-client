@@ -5,7 +5,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SocketIO from 'socket.io-client';
-import { DroneAction } from '../types';
+import { DroneAction } from 'src/types';
 
 type AppSocketProps = {
   serverUrl: string;
