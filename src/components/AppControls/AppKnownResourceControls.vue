@@ -5,7 +5,7 @@
     <app-icon-button
       :backgroundColor="colors.actions.collect.hex"
       :color="colors.white.hex"
-      :disabled="props.currentStock < buildingCreateResourceCost"
+      :disabled="props.currentStock < config.buildingCreationResourceCost"
       icon="build"
       label="Build"
       @app-click="handleBuildingCreate"
@@ -36,7 +36,7 @@ export default defineComponent({
       props,
       colors,
       handleBuildingCreate,
-      buildingCreateResourceCost: config.buildingCreateResourceCost,
+      config,
     };
   },
 });

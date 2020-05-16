@@ -1,6 +1,11 @@
 export default {
+  maxHiveLevel: 3,
+
   // resource costs
-  droneCreateResourceCost: 10,
-  buildingCreateResourceCost: 30,
-  hiveUpgradeResourceCost: 100,
+  droneCreationResourceCost: 10,
+  buildingCreationResourceCost: 30,
+  hiveUpgradeResourceCosts: {
+    1: 100,
+    2: 500,
+  },
 };

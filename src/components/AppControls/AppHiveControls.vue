@@ -5,7 +5,11 @@
       class="app-control"
       icon="build"
       :label="
-        `Upgrade (${config.hiveUpgradeResourceCost}) ${
+        `Upgrade ${
+          props.hive.level < config.maxHiveLevel
+            ? `(${config.hiveUpgradeResourceCosts[props.hive.level]})`
+            : ''
+        } ${
           props.hive.action === 'upgradeHive' ? `: ${Math.floor(props.hive.actionProgress)}%` : ''
         }`
       "
@@ -13,8 +17,8 @@
       :color="colors.white.hex"
       :disabled="
         props.hive.action !== 'wait' ||
-          props.hive.stock < config.hiveUpgradeResourceCost ||
-          props.hive.level !== 1
+          props.hive.level >= config.maxHiveLevel ||
+          props.hive.stock < config.hiveUpgradeResourceCosts[props.hive.level]
       "
       @app-click="emit('hive-upgrade')"
     />
@@ -23,7 +27,7 @@
       class="app-control"
       icon="plus"
       :label="
-        `Create Drone (${config.droneCreateResourceCost}) ${
+        `Create Drone (${config.droneCreationResourceCost}) ${
           props.hive.action === 'createDrone' ? `: ${Math.floor(props.hive.actionProgress)}%` : ''
         }`
       "
@@ -31,7 +35,7 @@
       :color="colors.white.hex"
       :disabled="
         props.hive.action !== 'wait' ||
-          props.hive.stock < config.droneCreateResourceCost ||
+          props.hive.stock < config.droneCreationResourceCost ||
           props.hive.drones.length >= props.hive.maxPopulation
       "
       @app-click="emit('drone-create')"

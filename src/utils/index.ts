@@ -29,13 +29,7 @@ const drawCircularProgress = (
 ): void => {
   if (context) {
     context.beginPath();
-    context.arc(
-      position.x,
-      position.y,
-      size,
-      (-1 / 2) * Math.PI,
-      ratio * 2 * Math.PI - (1 / 2) * Math.PI,
-    );
+    context.arc(position.x, position.y, size, -0.5 * Math.PI, ratio * 2 * Math.PI - 0.5 * Math.PI);
 
     context.lineWidth = width || size / 10;
     context.strokeStyle = color;

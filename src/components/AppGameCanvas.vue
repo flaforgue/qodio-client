@@ -79,8 +79,13 @@ export default defineComponent((props: AppGameCanvasProps) => {
       size,
     );
 
-    const ratio = buildingRequest.progress / 100;
-    drawCircularProgress(context, buildingRequest.position, 31, ratio, colors.actions.build.hex);
+    drawCircularProgress(
+      context,
+      buildingRequest.position,
+      31,
+      buildingRequest.progress / 100,
+      colors.actions.build.hex,
+    );
   };
 
   const drawCollector = (collector: Resource): void => {
@@ -130,7 +135,7 @@ export default defineComponent((props: AppGameCanvasProps) => {
       drawCircularProgress(
         context,
         hive.position,
-        hive.radius + 5,
+        hive.radius + 8,
         hive.actionProgress / 100,
         colors.hive.actions[hive.action].hex,
         5,

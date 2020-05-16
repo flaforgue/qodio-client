@@ -7,7 +7,7 @@ export default (): HiveSprites => {
   const sprites = {} as HiveSprites;
   const sizes = [175, 200, 225];
 
-  for (let i = 1; i < sizes.length; i++) {
+  for (let i = 1; i < sizes.length + 1; i++) {
     sprites[i] = {
       default: createBaseSprite({
         url: `../../../../../public/images/buildings/base/base-${i}.png`,
