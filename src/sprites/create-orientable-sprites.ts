@@ -1,5 +1,5 @@
-import { SpriteOptions, OrientableSprite } from '../../../../types';
-import createBaseSprite from '../create-base-sprite';
+import { SpriteOptions, OrientableSprite } from '../types';
+import createBaseSprite from './create-base-sprite';
 
 export default (defaultOptions: Omit<SpriteOptions, 'paths'>): OrientableSprite => {
   return {

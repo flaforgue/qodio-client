@@ -31,8 +31,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { colors } from '../../enums';
-import AppProgressBar from './AppProgressBar.vue';
-import AppIconButton from './AppIconButton.vue';
+import AppProgressBar from './app-progress-bar.vue';
+import AppIconButton from './app-icon-button.vue';
 import { DroneAction } from '../../types';
 
 type AppDroneActionControlProps = {

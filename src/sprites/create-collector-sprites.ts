@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 
-import createBaseSprite from '../create-base-sprite';
+import createBaseSprite from './create-base-sprite';
 import { CollectorSprites } from 'src/types';
 
 export default (): CollectorSprites => {

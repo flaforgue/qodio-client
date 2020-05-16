@@ -11,8 +11,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { AppButtonProps } from './AppButton.vue';
-import AppButton from './AppButton.vue';
+import { AppButtonProps } from './app-button.vue';
+import AppButton from './app-button.vue';
 
 interface AppIconButtonProps extends AppButtonProps {
   icon?: string;

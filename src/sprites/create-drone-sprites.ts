@@ -1,6 +1,6 @@
-import { DroneSprites } from '../../../../types';
-import createOrientableDroneSprites from './create-orientable-drone-sprites';
-import { droneActions } from '../../../../enums';
+import { DroneSprites } from '../types';
+import createOrientableDroneSprites from './create-orientable-sprites';
+import { droneActions } from '../enums';
 
 const defaultOptions = {
   height: 20,

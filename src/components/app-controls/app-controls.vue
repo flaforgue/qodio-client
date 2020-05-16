@@ -53,13 +53,13 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { colors, droneActions } from '../enums';
-import AppProgressBar from './AppControls/AppProgressBar.vue';
-import AppDroneActionControl from './AppControls/AppDroneActionControl.vue';
-import AppIconButton from './AppControls/AppIconButton.vue';
-import AppKnownResourceControls from './AppControls/AppKnownResourceControls.vue';
-import AppHiveControls from './AppControls/AppHiveControls.vue';
-import { getColor } from '../utils';
+import { colors, droneActions } from '../../enums';
+import AppProgressBar from './app-progress-bar.vue';
+import AppDroneActionControl from './app-drone-action-control.vue';
+import AppIconButton from './app-icon-button.vue';
+import AppKnownResourceControls from './app-known-resource-controls.vue';
+import AppHiveControls from './app-hive-controls.vue';
+import { getColor } from '../../utils';
 import { Hive, DroneAction, HoverableElement } from 'src/types';
 
 type AppControlsProps = {

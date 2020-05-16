@@ -50,13 +50,13 @@
 </template>
 
 <script lang="ts">
-import AppGameCanvas from './AppGameCanvas.vue';
-import AppInteractionsCanvas from './AppInteractionsCanvas.vue';
-import AppSocket from './AppSocket.vue';
-import AppControls from './AppControls.vue';
+import AppGameCanvas from './canvas/app-game-canvas.vue';
+import AppInteractionsCanvas from './canvas/app-interactions-canvas.vue';
+import AppSocket from './app-socket.vue';
+import AppControls from './app-controls/app-controls.vue';
 import { defineComponent, ref, reactive, nextTick } from 'vue';
 import { Player, Game, Resource, Board, Hive, DroneAction, HoverableElement } from '../types';
-import { Factories } from '../utils';
+import Factories from '../factories';
 
 export default defineComponent({
   props: {

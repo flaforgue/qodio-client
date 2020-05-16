@@ -16,7 +16,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Resource } from 'src/types';
-import AppIconButton from './AppIconButton.vue';
+import AppIconButton from './app-icon-button.vue';
 import { colors } from '../../enums';
 import config from '../../config';
 

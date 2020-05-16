@@ -62,7 +62,7 @@ import { defineComponent } from 'vue';
 import { Hive } from 'src/types';
 import config from '../../config';
 import colors from '../../enums/colors';
-import AppIconButton from './AppIconButton.vue';
+import AppIconButton from './app-icon-button.vue';
 
 type AppHiveControlsProps = {
   hive: Hive;

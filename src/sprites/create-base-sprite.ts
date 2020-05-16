@@ -1,4 +1,4 @@
-import { SpriteOptions, PathOptions } from '../../../types';
+import { SpriteOptions, PathOptions } from '../types';
 
 const createFromPaths = (
   context: CanvasRenderingContext2D,

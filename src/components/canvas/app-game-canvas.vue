@@ -6,10 +6,10 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
-import { Hive, Drone, Resource, PlayerType, BuildingRequest, HoverableElement } from '../types';
-import { drawCircle, getColor, drawCircularProgress } from '../utils';
-import { colors } from '../enums';
-import Factory from '../utils/factories';
+import { Hive, Drone, Resource, PlayerType, BuildingRequest, HoverableElement } from '../../types';
+import { drawCircle, getColor, drawCircularProgress } from '../../utils';
+import { colors } from '../../enums';
+import Factory from '../../factories';
 
 type AppGameCanvasProps = {
   height: number;
