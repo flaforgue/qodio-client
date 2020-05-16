@@ -1,6 +1,6 @@
 export default {
   // resource costs
-  droneResourceCost: 10,
-  buildingResourceCost: 30,
-  upgradeResourceCost: 100,
+  droneCreateResourceCost: 10,
+  buildingCreateResourceCost: 30,
+  hiveUpgradeResourceCost: 100,
 };

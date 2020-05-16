@@ -80,7 +80,7 @@ export default defineComponent((props: AppGameCanvasProps) => {
     );
 
     const ratio = buildingRequest.progress / 100;
-    drawCircularProgress(context, buildingRequest.position, 40, ratio, colors.actions.build.hex);
+    drawCircularProgress(context, buildingRequest.position, 31, ratio, colors.actions.build.hex);
   };
 
   const drawCollector = (collector: Resource): void => {
@@ -125,6 +125,17 @@ export default defineComponent((props: AppGameCanvasProps) => {
       hive.position.x - hive.radius,
       hive.position.y - hive.radius,
     );
+
+    if (hive.action !== 'wait') {
+      drawCircularProgress(
+        context,
+        hive.position,
+        hive.radius + 5,
+        hive.actionProgress / 100,
+        colors.hive.actions[hive.action].hex,
+        5,
+      );
+    }
   };
 
   const redraw = (): void => {
@@ -152,6 +163,6 @@ export default defineComponent((props: AppGameCanvasProps) => {
 <style lang="scss" scoped>
 canvas {
   cursor: cell;
-  background-image: url('/public/images/backgrounds/desert2.jpg');
+  background-image: url('/public/images/backgrounds/space1.jpg');
 }
 </style>

@@ -2,26 +2,13 @@
   <div class="app-controls">
     <div class="app-controls-lines">
       <div class="app-controls-line">
-        <app-icon-button
-          icon="minus"
-          class="app-control small-btn"
-          :color="colors.black.hex"
-          :backgroundColor="colors.grey.hex"
-          @app-click="handleDroneRecycle"
-        />
-        <app-icon-button
-          icon="plus"
-          class="app-control small-btn"
-          :color="colors.white.hex"
-          :backgroundColor="colors.players.self.hex"
-          @app-click="handleDroneCreate"
-        />
         <app-progress-bar
           class="app-control"
           :color="colors.players.self.hex"
           :emptyColor="emptyPopulationColor"
           :value="props.hive.drones.length"
           :max="props.hive.maxPopulation"
+          title="Drones"
         />
         <app-progress-bar
           class="app-control"
@@ -29,8 +16,10 @@
           :emptyColor="emptyResourceColor"
           :value="props.hive.stock"
           :max="props.hive.maxStock"
+          title="Resources"
         />
       </div>
+      <hr class="app-divider" />
       <div class="app-controls-line" v-for="action in droneActions" :key="action">
         <app-drone-action-control
           :action="action"
@@ -52,8 +41,10 @@
 
         <app-hive-controls
           v-else-if="props.activeElement.type === 'hive'"
-          :data="props.activeElement.data"
+          :hive="props.hive"
           @hive-upgrade="handleHiveUpgrade"
+          @drone-create="handleDroneCreate"
+          @drone-recycle="handleDroneRecycle"
         />
       </div>
     </div>
@@ -86,14 +77,6 @@ export default defineComponent({
   },
 
   setup(props: AppControlsProps, { emit }) {
-    const handleDroneCreate = (): void => {
-      emit('drone-create');
-    };
-
-    const handleDroneRecycle = (): void => {
-      emit('drone-recycle');
-    };
-
     const handleDroneEngage = (action: DroneAction): void => {
       emit('drone-engage', action);
     };
@@ -110,16 +93,24 @@ export default defineComponent({
       emit('hive-upgrade');
     };
 
+    const handleDroneCreate = (): void => {
+      emit('drone-create');
+    };
+
+    const handleDroneRecycle = (): void => {
+      emit('drone-recycle');
+    };
+
     return {
       props,
       colors,
-      droneActions,
-      handleDroneCreate,
-      handleDroneRecycle,
+      droneActions: droneActions.filter((action) => action !== 'recycle'),
       handleDroneEngage,
       handleDroneDisengage,
       handleBuildingCreate,
       handleHiveUpgrade,
+      handleDroneCreate,
+      handleDroneRecycle,
       emptyResourceColor: getColor(colors.actions.collect.rgb, 0.2),
       emptyPopulationColor: getColor(colors.players.self.rgb, 0.2),
     };
@@ -159,11 +150,7 @@ export default defineComponent({
 
     .app-control {
       margin-top: 20px;
-      margin-bottom: 20px;
-
-      &:not(.small-btn) {
-        flex: 1;
-      }
+      flex: 1;
 
       & + .app-control {
         margin-left: 10px;
@@ -179,6 +166,12 @@ export default defineComponent({
     h3 {
       color: #fff;
     }
+  }
+
+  .app-divider {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 20px 0;
   }
 }
 </style>

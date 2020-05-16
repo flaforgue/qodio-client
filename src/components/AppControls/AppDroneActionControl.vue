@@ -1,27 +1,30 @@
 <template>
   <div class="app-drone-action-control">
-    <app-icon-button
-      v-if="props.action !== 'wait'"
-      icon="minus"
-      :color="colors.white.hex"
-      :backgroundColor="colors.actions.wait.hex"
-      @app-click="handleDroneDisengage"
-    />
+    <div class="drone-action-control-container">
+      <app-icon-button
+        v-if="props.action !== 'wait'"
+        icon="minus"
+        :color="colors.white.hex"
+        :backgroundColor="colors.actions[props.action].hex"
+        @app-click="handleDroneDisengage"
+      />
 
-    <app-progress-bar
-      :color="colors.actions[props.action].hex"
-      :emptyColor="colors.lightGrey.hex"
-      :value="props.nbDrones"
-      :max="props.nbMaxDrones"
-    />
+      <app-progress-bar
+        :color="colors.actions[props.action].hex"
+        :emptyColor="colors.lightGrey.hex"
+        :value="props.nbDrones"
+        :max="props.nbMaxDrones"
+        :title="props.action"
+      />
 
-    <app-icon-button
-      v-if="props.action !== 'wait'"
-      icon="plus"
-      :color="colors.white.hex"
-      :backgroundColor="colors.actions[props.action].hex"
-      @app-click="handleDroneEngage"
-    />
+      <app-icon-button
+        v-if="props.action !== 'wait'"
+        icon="plus"
+        :color="colors.white.hex"
+        :backgroundColor="colors.actions[props.action].hex"
+        @app-click="handleDroneEngage"
+      />
+    </div>
   </div>
 </template>
 
@@ -66,6 +69,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .app-drone-action-control {
   width: 100%;
+}
+
+.drone-action-control-title {
+  text-align: center;
+}
+
+.drone-action-control-container {
   display: flex;
   justify-content: center;
 

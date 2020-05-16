@@ -25,21 +25,21 @@ const drawCircularProgress = (
   size: number,
   ratio: number,
   color: string,
+  width?: number,
 ): void => {
   if (context) {
     context.beginPath();
     context.arc(
       position.x,
       position.y,
-      (size / 100) * 85,
+      size,
       (-1 / 2) * Math.PI,
       ratio * 2 * Math.PI - (1 / 2) * Math.PI,
     );
 
-    context.lineWidth = (size / 100) * 10;
+    context.lineWidth = width || size / 10;
     context.strokeStyle = color;
 
-    //fin du dessin
     context.stroke();
   }
 };

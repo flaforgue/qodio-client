@@ -39,8 +39,12 @@ export interface BuildingRequest extends PlayerEntity {
   progress: number;
 }
 
+export type HiveAction = 'wait' | 'createDrone';
+
 export interface Hive extends PlayerEntity {
   level: number;
+  action: HiveAction;
+  actionProgress: number;
   radius: number;
   territoryRadius: number;
   stock: number;
@@ -54,7 +58,7 @@ export interface Hive extends PlayerEntity {
   actionsNbDrones: Record<DroneAction, number>;
 }
 
-export type DroneAction = 'wait' | 'scout' | 'collect' | 'build';
+export type DroneAction = 'wait' | 'scout' | 'collect' | 'build' | 'recycle';
 
 export type Direction =
   | 'up'

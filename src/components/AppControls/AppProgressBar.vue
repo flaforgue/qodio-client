@@ -9,7 +9,10 @@
         }"
       ></div>
     </div>
-    <div class="progress-bar-label">{{ props.value }} / {{ props.max }}</div>
+    <div class="progress-bar-label">
+      {{ props.title }}
+      ({{ props.value }}/{{ props.max }})
+    </div>
   </div>
 </template>
 
@@ -21,6 +24,7 @@ type AppCircularProgressBarProps = {
   emptyColor: string;
   value: number;
   max: number;
+  title?: string;
 };
 
 export default defineComponent({

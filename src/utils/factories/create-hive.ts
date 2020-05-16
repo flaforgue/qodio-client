@@ -7,6 +7,8 @@ export default (): Hive => ({
     x: 0,
     y: 0,
   },
+  action: 'wait',
+  actionProgress: 0,
   radius: 0,
   territoryRadius: 0,
   playerId: '',
@@ -23,5 +25,6 @@ export default (): Hive => ({
     collect: 0,
     scout: 0,
     build: 0,
+    recycle: 0,
   },
 });

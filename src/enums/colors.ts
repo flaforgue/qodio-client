@@ -35,6 +35,10 @@ export default {
       rgb: [173, 65, 65],
       hex: '#AD4141',
     },
+    recycle: {
+      rgb: [173, 65, 65],
+      hex: '#AD4141',
+    },
     scout: {
       rgb: [58, 183, 240],
       hex: '#3AB7F0',
@@ -61,5 +65,22 @@ export default {
   knownResource: {
     rgb: [242, 100, 63],
     hex: '#f2643f',
+  },
+
+  hive: {
+    actions: {
+      createDrone: {
+        rgb: [69, 105, 144],
+        hex: '#456990',
+      },
+      recycleDrone: {
+        rgb: [170, 170, 170],
+        hex: '#aaa',
+      },
+      upgradeHive: {
+        rgb: [221, 83, 45],
+        hex: '#DD532D',
+      },
+    },
   },
 };
