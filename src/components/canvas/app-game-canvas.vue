@@ -15,6 +15,7 @@ import {
   createKnownResourceSprites,
   createBuildingRequestSprites,
   createCollectorSprites,
+  createCarriedResourceSprite,
 } from 'src/sprites';
 
 type AppGameCanvasProps = {
@@ -33,6 +34,7 @@ export default defineComponent((props: AppGameCanvasProps) => {
   const knownResourceSprites = createKnownResourceSprites();
   const buildingRequestSprites = createBuildingRequestSprites();
   const collectorSprites = createCollectorSprites();
+  const carriedResourceSprite = createCarriedResourceSprite();
   const canvas = ref<HTMLCanvasElement>();
   let context: CanvasRenderingContext2D;
 
@@ -71,7 +73,7 @@ export default defineComponent((props: AppGameCanvasProps) => {
     );
 
     if (drone.carriedResourceUnits > 0) {
-      drawCircle(context, drone.position, 3, colors.knownResource.hex);
+      context.drawImage(carriedResourceSprite, drone.position.x - 5, drone.position.y - 5, 10, 10);
     }
   };
 

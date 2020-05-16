@@ -4,13 +4,14 @@ import { drawCircle } from 'src/utils';
 
 export default (): CanvasImageSource => {
   const drawFunction = (context: CanvasRenderingContext2D): void => {
-    console.log(context);
-    drawCircle(context, { x: 0, y: 0 }, 3, colors.knownResource.hex);
+    drawCircle(context, { x: 5, y: 5 }, 5, colors.knownResource.hex);
   };
 
-  return createSpriteFromCanvas({
-    width: 6,
-    height: 6,
+  const canvas = createSpriteFromCanvas({
+    width: 10,
+    height: 10,
     drawFunction,
   });
+
+  return canvas;
 };
