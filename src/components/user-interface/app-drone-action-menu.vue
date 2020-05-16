@@ -1,6 +1,6 @@
 <template>
-  <div class="app-drone-action-control">
-    <div class="drone-action-control-container">
+  <div class="app-drone-action-menu">
+    <div class="drone-action-menu-container">
       <app-icon-button
         v-if="props.action !== 'wait'"
         icon="minus"
@@ -31,8 +31,8 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { colors } from '../../enums';
-import AppProgressBar from './app-progress-bar.vue';
-import AppIconButton from './app-icon-button.vue';
+import AppProgressBar from './shared/app-progress-bar.vue';
+import AppIconButton from './shared/app-icon-button.vue';
 import { DroneAction } from '../../types';
 
 type AppDroneActionControlProps = {
@@ -67,15 +67,11 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.app-drone-action-control {
+.app-drone-action-menu {
   width: 100%;
 }
 
-.drone-action-control-title {
-  text-align: center;
-}
-
-.drone-action-control-container {
+.drone-action-menu-container {
   display: flex;
   justify-content: center;
 

@@ -1,9 +1,9 @@
 <template>
-  <div class="app-controls">
-    <div class="app-controls-lines">
-      <div class="app-controls-line">
+  <div class="main-menu">
+    <div class="main-menu-lines">
+      <div class="main-menu-line">
         <app-progress-bar
-          class="app-control"
+          class="main-menu-item"
           :color="colors.players.self.hex"
           :emptyColor="emptyPopulationColor"
           :value="props.hive.drones.length"
@@ -11,7 +11,7 @@
           title="Drones"
         />
         <app-progress-bar
-          class="app-control"
+          class="main-menu-item"
           :color="colors.actions.collect.hex"
           :emptyColor="emptyResourceColor"
           :value="props.hive.stock"
@@ -20,8 +20,8 @@
         />
       </div>
       <hr class="app-divider" />
-      <div class="app-controls-line" v-for="action in droneActions" :key="action">
-        <app-drone-action-control
+      <div class="main-menu-line" v-for="action in droneActions" :key="action">
+        <app-drone-action-menu
           :action="action"
           :nbDrones="props.hive.actionsNbDrones[action]"
           :nbMaxDrones="props.hive.drones.length"
@@ -30,16 +30,16 @@
         />
       </div>
     </div>
-    <div class="app-active-element-controls">
-      <div v-if="props.activeElement" class="app-controls-line">
-        <app-known-resource-controls
+    <div class="app-active-element-menu">
+      <div v-if="props.activeElement" class="main-menu-line">
+        <app-known-resource-menu
           v-if="props.activeElement.type === 'knownResource'"
           :data="props.activeElement.data"
           :currentStock="props.hive.stock"
           @building-create="handleBuildingCreate"
         />
 
-        <app-hive-controls
+        <app-hive-menu
           v-else-if="props.activeElement.type === 'hive'"
           :hive="props.hive"
           @hive-upgrade="handleHiveUpgrade"
@@ -54,29 +54,29 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { colors, droneActions } from '../../enums';
-import AppProgressBar from './app-progress-bar.vue';
-import AppDroneActionControl from './app-drone-action-control.vue';
-import AppIconButton from './app-icon-button.vue';
-import AppKnownResourceControls from './app-known-resource-controls.vue';
-import AppHiveControls from './app-hive-controls.vue';
+import AppProgressBar from './shared/app-progress-bar.vue';
+import AppDroneActionMenu from './app-drone-action-menu.vue';
+import AppIconButton from './shared/app-icon-button.vue';
+import AppKnownResourceMenu from './contextual-menus/app-known-resource-menu.vue';
+import AppHiveMenu from './contextual-menus/app-hive-menu.vue';
 import { getColor } from '../../utils';
 import { Hive, DroneAction, HoverableElement } from 'src/types';
 
-type AppControlsProps = {
+type AppMainMenuProps = {
   hive: Hive;
   activeElement?: HoverableElement;
 };
 
 export default defineComponent({
   components: {
-    AppDroneActionControl,
+    AppDroneActionMenu,
     AppProgressBar,
     AppIconButton,
-    AppKnownResourceControls,
-    AppHiveControls,
+    AppKnownResourceMenu,
+    AppHiveMenu,
   },
 
-  setup(props: AppControlsProps, { emit }) {
+  setup(props: AppMainMenuProps, { emit }) {
     const handleDroneEngage = (action: DroneAction): void => {
       emit('drone-engage', action);
     };
@@ -119,7 +119,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.app-controls {
+.main-menu {
   height: 100%;
   width: 330px;
   position: fixed;
@@ -130,14 +130,14 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
 
-  .app-controls-lines {
+  .main-menu-lines {
     padding-top: 10px;
     padding-bottom: 20px;
 
-    .app-controls-line {
+    .main-menu-line {
       display: flex;
 
-      & + .app-controls-line {
+      & + .main-menu-line {
         margin-top: 10px;
       }
 
@@ -148,17 +148,17 @@ export default defineComponent({
       }
     }
 
-    .app-control {
+    .main-menu-item {
       margin-top: 20px;
       flex: 1;
 
-      & + .app-control {
+      & + .main-menu-item {
         margin-left: 10px;
       }
     }
   }
 
-  .app-active-element-controls {
+  .app-active-element-menu {
     flex: 1;
     padding: 15px;
     background-color: rgba(255, 255, 255, 0.3);

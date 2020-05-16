@@ -36,7 +36,7 @@
       @building-created="handleBuildingCreated"
       @hive-upgraded="handleHiveUpgraded"
     />
-    <app-controls
+    <app-main-menu
       :hive="playerHive"
       :activeElement="activeElement"
       @drone-create="handleDroneCreate"
@@ -53,7 +53,7 @@
 import AppGameCanvas from './canvas/app-game-canvas.vue';
 import AppInteractionsCanvas from './canvas/app-interactions-canvas.vue';
 import AppSocket from './app-socket.vue';
-import AppControls from './app-controls/app-controls.vue';
+import AppMainMenu from './user-interface/app-main-menu.vue';
 import { defineComponent, ref, reactive, nextTick } from 'vue';
 import { Player, Game, Resource, Board, Hive, DroneAction, HoverableElement } from '../types';
 import Factories from '../factories';
@@ -66,7 +66,7 @@ export default defineComponent({
     AppGameCanvas,
     AppInteractionsCanvas,
     AppSocket,
-    AppControls,
+    AppMainMenu,
   },
   setup(props) {
     const appSocketComponent = ref();

@@ -1,5 +1,5 @@
 <template>
-  <div class="app-known-resource-controls">
+  <div class="app-known-resource-menu">
     <h3>Resource</h3>
     <p>Available units: {{ props.data.stock }} / {{ props.data.initialStock }}</p>
     <app-icon-button
@@ -16,18 +16,18 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Resource } from 'src/types';
-import AppIconButton from './app-icon-button.vue';
-import { colors } from '../../enums';
-import config from '../../config';
+import AppIconButton from '../shared/app-icon-button.vue';
+import { colors } from '../../../enums';
+import config from '../../../config';
 
-type AppKnownResourceControlsProps = {
+type AppKnownResourceMenuProps = {
   data: Resource;
   currentStock: number;
 };
 
 export default defineComponent({
   components: { AppIconButton },
-  setup(props: AppKnownResourceControlsProps, { emit }) {
+  setup(props: AppKnownResourceMenuProps, { emit }) {
     const handleBuildingCreate = (): void => {
       emit('building-create', props.data.id);
     };

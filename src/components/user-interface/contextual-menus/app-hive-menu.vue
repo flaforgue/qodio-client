@@ -1,8 +1,8 @@
 <template>
-  <div class="app-hive-controls">
+  <div class="app-hive-menu">
     <h3>Hive - level {{ props.hive.level }}</h3>
     <app-icon-button
-      class="app-control"
+      class="app-menu-item"
       icon="build"
       :label="
         `Upgrade ${
@@ -24,7 +24,7 @@
     />
 
     <app-icon-button
-      class="app-control"
+      class="app-menu-item"
       icon="plus"
       :label="
         `Create Drone (${config.droneCreationResourceCost}) ${
@@ -42,7 +42,7 @@
     />
 
     <app-icon-button
-      class="app-control"
+      class="app-menu-item"
       icon="minus"
       :label="
         `Recycle Drone ${
@@ -60,17 +60,17 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { Hive } from 'src/types';
-import config from '../../config';
-import colors from '../../enums/colors';
-import AppIconButton from './app-icon-button.vue';
+import config from '../../../config';
+import colors from '../../../enums/colors';
+import AppIconButton from '../shared/app-icon-button.vue';
 
-type AppHiveControlsProps = {
+type AppHiveMenuProps = {
   hive: Hive;
 };
 
 export default defineComponent({
   components: { AppIconButton },
-  setup(props: AppHiveControlsProps, { emit }) {
+  setup(props: AppHiveMenuProps, { emit }) {
     return {
       props,
       config,
@@ -82,7 +82,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-.app-control {
+.app-menu-item {
   margin-top: 10px;
 }
 </style>
