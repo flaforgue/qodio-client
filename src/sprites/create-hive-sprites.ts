@@ -2,23 +2,36 @@ import { createSpriteFromImage } from 'src/utils';
 import { HiveSprites } from 'src/types';
 
 export default (): HiveSprites => {
+  console.log('mylog starting');
   const sprites = {} as HiveSprites;
-  const sizes = [175, 200, 225];
+  const options = [
+    {
+      type: 'self',
+      sizes: [175, 200, 225],
+    },
+    {
+      type: 'ennemy',
+      sizes: [175, 200, 225],
+    },
+  ];
 
-  for (let i = 1; i < sizes.length + 1; i++) {
-    sprites[i] = {
-      default: createSpriteFromImage({
-        url: `/public/images/buildings/base/base-${i}.png`,
-        width: sizes[i],
-        height: sizes[i],
-      }),
-      hover: createSpriteFromImage({
-        url: `/public/images/buildings/base/base-${i}-hover.png`,
-        width: sizes[i],
-        height: sizes[i],
-      }),
-    };
+  for (let i = 0; i < options.length; i++) {
+    sprites[options[i].type] = {};
+    for (let j = 1; j < options[i].sizes.length + 1; j++) {
+      sprites[options[i].type][j] = {
+        default: createSpriteFromImage({
+          url: `/public/images/buildings/hive/${options[i].type}/level-${j}.png`,
+          width: options[i].sizes[j],
+          height: options[i].sizes[j],
+        }),
+        hover: createSpriteFromImage({
+          url: `/public/images/buildings/hive/${options[i].type}/level-${j}-hover.png`,
+          width: options[i].sizes[j],
+          height: options[i].sizes[j],
+        }),
+      };
+    }
   }
-
+  console.log('mylog', sprites);
   return sprites;
 };

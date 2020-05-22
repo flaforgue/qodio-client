@@ -91,7 +91,7 @@ export type HoverableSprite = {
 };
 
 export type HiveLevel = 1 | 2 | 3;
-export type HiveSprites = Record<HiveLevel, HoverableSprite>;
+export type HiveSprites = Record<PlayerType, Record<HiveLevel, HoverableSprite>>;
 export type BuildingType = 'collector';
 export type BuildingRequestSprites = Record<BuildingType, CanvasImageSource>;
 export type CollectorStockLevel = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;

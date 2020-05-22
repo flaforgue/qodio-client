@@ -134,7 +134,7 @@ export default defineComponent((props: AppGameCanvasProps) => {
     }
 
     context.drawImage(
-      hiveSprites[hive.level][getHoverableSpriteName(hive.id)],
+      hiveSprites[playerType][hive.level][getHoverableSpriteName(hive.id)],
       hive.position.x - hive.radius,
       hive.position.y - hive.radius,
     );
