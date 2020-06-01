@@ -57,7 +57,7 @@
       :disabled="
         props.hive.action !== 'wait' ||
           props.hive.stock < config.droneCreationResourceCost ||
-          props.hive.population >= props.hive.maxPopulation
+          props.hive.drones.length >= props.hive.maxPopulation
       "
       @app-click="emit('drone-create')"
     />
