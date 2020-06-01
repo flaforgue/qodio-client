@@ -32,8 +32,8 @@ export default {
 
   actions: {
     wait: {
-      rgb: [173, 65, 65],
-      hex: '#AD4141',
+      rgb: [156, 156, 156],
+      hex: '#9c9c9c',
     },
     recycle: {
       rgb: [173, 65, 65],
@@ -52,8 +52,12 @@ export default {
       hex: '#DD532D',
     },
     attack: {
-      rgb: [147, 31, 29],
-      hex: '#931f1d',
+      rgb: [173, 65, 65],
+      hex: '#AD4141',
+    },
+    defend: {
+      rgb: [69, 105, 144],
+      hex: '#456990',
     },
   },
 
