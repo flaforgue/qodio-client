@@ -27,7 +27,7 @@
       class="app-menu-item"
       icon="plus"
       :label="
-        `Create Sentinel (${config.sentinelCreationResourceCost}) ${
+        `Create Warrior (${config.warriorCreationResourceCost}) ${
           props.hive.action === 'createSentinel'
             ? `: ${Math.floor(props.hive.actionProgress)}%`
             : ''
@@ -38,10 +38,10 @@
       :disabled="
         props.hive.level <= 1 ||
           props.hive.action !== 'wait' ||
-          props.hive.stock < config.sentinelCreationResourceCost ||
-          props.hive.sentinels.length >= props.hive.maxPopulation
+          props.hive.stock < config.warriorCreationResourceCost ||
+          props.hive.drones.length >= props.hive.maxPopulation
       "
-      @app-click="emit('sentinel-create')"
+      @app-click="emit('warrior-create')"
     />
 
     <app-icon-button
