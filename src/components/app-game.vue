@@ -203,7 +203,7 @@ export default defineComponent({
 <style lang="scss">
 .app-game {
   padding: 80px 80px 80px 330px;
-  background-color: #333;
+  background-color: #5c5c5d;
   width: auto;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }

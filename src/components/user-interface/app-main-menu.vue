@@ -161,7 +161,7 @@ export default defineComponent({
   .app-active-element-menu {
     flex: 1;
     padding: 15px;
-    background-color: rgba(255, 255, 255, 0.3);
+    background-color: #5c5c5d;
 
     h3 {
       color: #fff;

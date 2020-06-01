@@ -1,11 +1,17 @@
 <template>
-  <div></div>
+  <div class="app-socket">
+    <app-notifications
+      :notifications="notifications"
+      @remove-notification="removeNotificationMessage"
+    />
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent, reactive } from 'vue';
 import SocketIO from 'socket.io-client';
 import { DroneAction } from 'src/types';
+import AppNotifications from './user-interface/app-notifications.vue';
 
 type AppSocketProps = {
   serverUrl: string;
@@ -13,39 +19,68 @@ type AppSocketProps = {
   dronesToDisengage: Record<DroneAction, boolean>;
 };
 
-export default defineComponent((props: AppSocketProps, { emit }) => {
-  const socket = SocketIO(props.serverUrl);
+export default defineComponent({
+  components: { AppNotifications },
+  setup(props: AppSocketProps, { emit }) {
+    const socket = SocketIO(props.serverUrl);
+    const notifications = reactive<string[]>([]);
 
-  const emitMessage = (name: string, data?: unknown): void => {
-    socket.emit(name, data);
-  };
+    const emitMessage = (name: string, data?: unknown): void => {
+      socket.emit(name, data);
+    };
 
-  const eventProxied = [
-    'self.create',
-    'game.create',
-    'game.stop',
-    'game.tick',
-    'building.created',
-    'knownResource.created',
-    'hive.upgraded',
-  ];
+    const eventProxied = [
+      'self.create',
+      'game.create',
+      'game.stop',
+      'game.tick',
+      'building.created',
+      'knownResource.created',
+      'hive.upgraded',
+      'drone.created',
+      'drone.recycled',
+      'building.built',
+    ];
 
-  for (let i = 0; i < eventProxied.length; i++) {
-    socket.on(eventProxied[i], (data) => {
-      emit(eventProxied[i].replace('.', '-'), data);
+    const eventWithNotification = [
+      'drone.created',
+      'drone.recycled',
+      'hive.upgraded',
+      'knownResource.created',
+      'building.built',
+    ];
+
+    for (let i = 0; i < eventProxied.length; i++) {
+      socket.on(eventProxied[i], (data) => {
+        if (eventWithNotification.indexOf(eventProxied[i]) !== -1) {
+          if (notifications.length >= 5) {
+            notifications.pop();
+          }
+
+          notifications.unshift(eventProxied[i]);
+        }
+
+        emit(eventProxied[i].replace('.', '-'), data);
+      });
+    }
+
+    socket.on('ping', () => {
+      console.debug('ping');
     });
-  }
 
-  socket.on('ping', () => {
-    console.debug('ping');
-  });
+    socket.on('pong', () => {
+      console.debug('pong');
+    });
 
-  socket.on('pong', () => {
-    console.debug('pong');
-  });
+    const removeNotificationMessage = (index: number): void => {
+      notifications.splice(index, 1);
+    };
 
-  return {
-    emitMessage,
-  };
+    return {
+      removeNotificationMessage,
+      notifications,
+      emitMessage,
+    };
+  },
 });
 </script>

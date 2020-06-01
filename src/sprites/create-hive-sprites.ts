@@ -2,7 +2,6 @@ import { createSpriteFromImage } from 'src/utils';
 import { HiveSprites } from 'src/types';
 
 export default (): HiveSprites => {
-  console.log('mylog starting');
   const sprites = {} as HiveSprites;
   const options = [
     {
@@ -32,6 +31,6 @@ export default (): HiveSprites => {
       };
     }
   }
-  console.log('mylog', sprites);
+
   return sprites;
 };

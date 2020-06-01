@@ -32,7 +32,7 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 img {
-  margin-left: -7px;
+  margin-left: -6px;
   margin-top: -1px;
 }
 .button-label {

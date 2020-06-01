@@ -27,6 +27,27 @@
       class="app-menu-item"
       icon="plus"
       :label="
+        `Create Sentinel (${config.sentinelCreationResourceCost}) ${
+          props.hive.action === 'createSentinel'
+            ? `: ${Math.floor(props.hive.actionProgress)}%`
+            : ''
+        }`
+      "
+      :backgroundColor="colors.hive.actions.createSentinel.hex"
+      :color="colors.white.hex"
+      :disabled="
+        props.hive.level <= 1 ||
+          props.hive.action !== 'wait' ||
+          props.hive.stock < config.sentinelCreationResourceCost ||
+          props.hive.sentinels.length >= props.hive.maxPopulation
+      "
+      @app-click="emit('sentinel-create')"
+    />
+
+    <app-icon-button
+      class="app-menu-item"
+      icon="plus"
+      :label="
         `Create Drone (${config.droneCreationResourceCost}) ${
           props.hive.action === 'createDrone' ? `: ${Math.floor(props.hive.actionProgress)}%` : ''
         }`
@@ -36,7 +57,7 @@
       :disabled="
         props.hive.action !== 'wait' ||
           props.hive.stock < config.droneCreationResourceCost ||
-          props.hive.drones.length >= props.hive.maxPopulation
+          props.hive.population >= props.hive.maxPopulation
       "
       @app-click="emit('drone-create')"
     />

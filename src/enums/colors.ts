@@ -69,6 +69,10 @@ export default {
 
   hive: {
     actions: {
+      createSentinel: {
+        rgb: [199, 55, 55],
+        hex: '#c73737',
+      },
       createDrone: {
         rgb: [69, 105, 144],
         hex: '#456990',
