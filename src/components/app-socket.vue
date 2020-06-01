@@ -38,12 +38,14 @@ export default defineComponent({
       'knownResource.created',
       'hive.upgraded',
       'drone.created',
+      'warrior.created',
       'drone.recycled',
       'building.built',
     ];
 
     const eventWithNotification = [
       'drone.created',
+      'warrior.created',
       'drone.recycled',
       'hive.upgraded',
       'knownResource.created',

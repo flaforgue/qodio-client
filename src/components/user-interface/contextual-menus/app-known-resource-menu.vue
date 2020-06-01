@@ -8,7 +8,7 @@
       :disabled="props.currentStock < config.buildingCreationResourceCost"
       icon="build"
       label="Build"
-      @app-click="handleBuildingCreate"
+      @app-click="emit('building-create')"
     />
   </div>
 </template>
@@ -28,14 +28,10 @@ type AppKnownResourceMenuProps = {
 export default defineComponent({
   components: { AppIconButton },
   setup(props: AppKnownResourceMenuProps, { emit }) {
-    const handleBuildingCreate = (): void => {
-      emit('building-create', props.data.id);
-    };
-
     return {
+      emit,
       props,
       colors,
-      handleBuildingCreate,
       config,
     };
   },

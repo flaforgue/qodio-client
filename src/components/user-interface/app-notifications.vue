@@ -8,7 +8,7 @@
       }"
       :class="{ main: index === 0 }"
       class="app-socket-notification"
-      @click="removeNotificationMessage(i)"
+      @click="emit('remove-notification', index)"
     >
       {{ getNotificationMessage(notification) }}
     </div>
@@ -27,6 +27,8 @@ export default defineComponent({
       switch (eventName) {
         case 'drone.created':
           return 'Drone created';
+        case 'warrior.created':
+          return 'Warrior created';
         case 'drone.recycled':
           return 'Drone recycled';
         case 'hive.upgraded':
@@ -40,14 +42,10 @@ export default defineComponent({
       }
     };
 
-    const removeNotificationMessage = (index: number): void => {
-      emit('remove-notification', index);
-    };
-
     return {
+      emit,
       props,
       getNotificationMessage,
-      removeNotificationMessage,
     };
   },
 });

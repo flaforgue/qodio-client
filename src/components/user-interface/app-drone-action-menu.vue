@@ -6,7 +6,7 @@
         icon="minus"
         :color="colors.white.hex"
         :backgroundColor="colors.actions[props.action].hex"
-        @app-click="handleDroneDisengage"
+        @app-click="emit('drone-disengage')"
       />
 
       <app-progress-bar
@@ -22,7 +22,7 @@
         icon="plus"
         :color="colors.white.hex"
         :backgroundColor="colors.actions[props.action].hex"
-        @app-click="handleDroneEngage"
+        @app-click="emit('drone-engage')"
       />
     </div>
   </div>
@@ -48,18 +48,9 @@ export default defineComponent({
   },
 
   setup(props: AppDroneActionControlProps, { emit }) {
-    const handleDroneEngage = (): void => {
-      emit('drone-engage', props.action);
-    };
-
-    const handleDroneDisengage = (): void => {
-      emit('drone-disengage', props.action);
-    };
-
     return {
+      emit,
       props,
-      handleDroneEngage,
-      handleDroneDisengage,
       colors,
     };
   },

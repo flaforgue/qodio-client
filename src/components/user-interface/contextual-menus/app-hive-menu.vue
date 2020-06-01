@@ -28,12 +28,10 @@
       icon="plus"
       :label="
         `Create Warrior (${config.warriorCreationResourceCost}) ${
-          props.hive.action === 'createSentinel'
-            ? `: ${Math.floor(props.hive.actionProgress)}%`
-            : ''
+          props.hive.action === 'createWarrior' ? `: ${Math.floor(props.hive.actionProgress)}%` : ''
         }`
       "
-      :backgroundColor="colors.hive.actions.createSentinel.hex"
+      :backgroundColor="colors.hive.actions.createWarrior.hex"
       :color="colors.white.hex"
       :disabled="
         props.hive.level <= 1 ||

@@ -25,8 +25,8 @@
           :action="action"
           :nbDrones="props.hive.actionsNbDrones[action]"
           :nbMaxDrones="props.hive.drones.length"
-          @drone-engage="handleDroneEngage"
-          @drone-disengage="handleDroneDisengage"
+          @drone-engage="emit('drone-engage', action)"
+          @drone-disengage="emit('drone-disengage', action)"
         />
       </div>
     </div>
@@ -36,15 +36,16 @@
           v-if="props.activeElement.type === 'knownResource'"
           :data="props.activeElement.data"
           :currentStock="props.hive.stock"
-          @building-create="handleBuildingCreate"
+          @building-create="emit('building-create', props.activeElement.data.id)"
         />
 
         <app-hive-menu
           v-else-if="props.activeElement.type === 'hive'"
           :hive="props.hive"
-          @hive-upgrade="handleHiveUpgrade"
-          @drone-create="handleDroneCreate"
-          @drone-recycle="handleDroneRecycle"
+          @hive-upgrade="emit('hive-upgrade')"
+          @drone-create="emit('drone-create')"
+          @warrior-create="emit('warrior-create')"
+          @drone-recycle="emit('drone-recycle')"
         />
       </div>
     </div>
@@ -60,7 +61,7 @@ import AppIconButton from './shared/app-icon-button.vue';
 import AppKnownResourceMenu from './contextual-menus/app-known-resource-menu.vue';
 import AppHiveMenu from './contextual-menus/app-hive-menu.vue';
 import { getColor } from 'src/utils';
-import { Hive, DroneAction, HoverableElement } from 'src/types';
+import { Hive, HoverableElement } from 'src/types';
 
 type AppMainMenuProps = {
   hive: Hive;
@@ -77,40 +78,11 @@ export default defineComponent({
   },
 
   setup(props: AppMainMenuProps, { emit }) {
-    const handleDroneEngage = (action: DroneAction): void => {
-      emit('drone-engage', action);
-    };
-
-    const handleDroneDisengage = (action: DroneAction): void => {
-      emit('drone-disengage', action);
-    };
-
-    const handleBuildingCreate = (knownResourceId: string): void => {
-      emit('building-create', knownResourceId);
-    };
-
-    const handleHiveUpgrade = (): void => {
-      emit('hive-upgrade');
-    };
-
-    const handleDroneCreate = (): void => {
-      emit('drone-create');
-    };
-
-    const handleDroneRecycle = (): void => {
-      emit('drone-recycle');
-    };
-
     return {
+      emit,
       props,
       colors,
       droneActions: droneActions.filter((action) => action !== 'recycle'),
-      handleDroneEngage,
-      handleDroneDisengage,
-      handleBuildingCreate,
-      handleHiveUpgrade,
-      handleDroneCreate,
-      handleDroneRecycle,
       emptyResourceColor: getColor(colors.actions.collect.rgb, 0.2),
       emptyPopulationColor: getColor(colors.players.self.rgb, 0.2),
     };

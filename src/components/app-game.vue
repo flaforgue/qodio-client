@@ -40,6 +40,7 @@
       :hive="playerHive"
       :activeElement="activeElement"
       @drone-create="handleDroneCreate"
+      @warrior-create="handleWarriorCreate"
       @drone-recycle="handleDroneRecycle"
       @drone-engage="handleDroneEngage"
       @drone-disengage="handleDroneDisengage"
@@ -124,6 +125,10 @@ export default defineComponent({
       appSocketComponent.value.emitMessage('drone.create');
     };
 
+    const handleWarriorCreate = (): void => {
+      appSocketComponent.value.emitMessage('warrior.create');
+    };
+
     const handleDroneRecycle = (): void => {
       appSocketComponent.value.emitMessage('drone.recycle');
     };
@@ -182,6 +187,8 @@ export default defineComponent({
       knownResources,
       playerHive,
       otherHives,
+      // Warrior create
+      handleWarriorCreate,
       // Drone create
       handleDroneCreate,
       // Drone recycle
