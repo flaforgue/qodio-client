@@ -65,7 +65,6 @@ export default defineComponent((props: AppGameCanvasProps) => {
 
   const drawDrone = (playerType: PlayerType, drone: Drone): void => {
     const spriteActionName = playerType === 'self' ? drone.action : 'ennemy';
-
     context.drawImage(
       droneSprites[spriteActionName][drone.direction],
       drone.position.x - 10,

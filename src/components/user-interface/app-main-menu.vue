@@ -20,7 +20,7 @@
         />
       </div>
       <hr class="app-divider" />
-      <div class="main-menu-line" v-for="action in droneActions" :key="action">
+      <div class="main-menu-line" v-for="action in workerActions" :key="action">
         <app-drone-action-menu
           :action="action"
           :nbDrones="props.hive.actionsNbDrones[action]"
@@ -54,7 +54,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { colors, droneActions } from 'src/enums';
+import { colors, workerActions } from 'src/enums';
 import AppProgressBar from './shared/app-progress-bar.vue';
 import AppDroneActionMenu from './app-drone-action-menu.vue';
 import AppIconButton from './shared/app-icon-button.vue';
@@ -82,7 +82,7 @@ export default defineComponent({
       emit,
       props,
       colors,
-      droneActions: droneActions.filter((action) => action !== 'recycle'),
+      workerActions: workerActions.filter((action) => action !== 'recycle'),
       emptyResourceColor: getColor(colors.actions.collect.rgb, 0.2),
       emptyPopulationColor: getColor(colors.players.self.rgb, 0.2),
     };

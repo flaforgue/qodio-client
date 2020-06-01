@@ -19,6 +19,8 @@ type AppSocketProps = {
   dronesToDisengage: Record<DroneAction, boolean>;
 };
 
+const maxNotifications = 3;
+
 export default defineComponent({
   components: { AppNotifications },
   setup(props: AppSocketProps, { emit }) {
@@ -55,7 +57,7 @@ export default defineComponent({
     for (let i = 0; i < eventProxied.length; i++) {
       socket.on(eventProxied[i], (data) => {
         if (eventWithNotification.indexOf(eventProxied[i]) !== -1) {
-          if (notifications.length >= 5) {
+          if (notifications.length >= maxNotifications) {
             notifications.pop();
           }
 
