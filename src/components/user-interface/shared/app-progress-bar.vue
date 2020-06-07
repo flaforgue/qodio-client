@@ -38,7 +38,7 @@ export default defineComponent({
 <style lang="scss" scoped>
 .progress-bar {
   width: 100%;
-  height: 30px;
+  height: 10px;
   margin-bottom: 5px;
   border-radius: 5px;
   overflow: hidden;

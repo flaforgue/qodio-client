@@ -58,7 +58,7 @@ export interface Hive extends PlayerEntity {
   actionsNbDrones: Record<DroneAction, number>;
 }
 
-export type DroneAction = 'wait' | 'scout' | 'collect' | 'build' | 'recycle' | 'defend';
+export type DroneAction = 'wait' | 'scout' | 'collect' | 'build' | 'recycle' | 'defend' | 'attack';
 
 export type Direction =
   | 'up'

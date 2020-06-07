@@ -44,6 +44,8 @@
       @drone-recycle="handleDroneRecycle"
       @drone-engage="handleDroneEngage"
       @drone-disengage="handleDroneDisengage"
+      @warrior-engage="handleWarriorEngage"
+      @warrior-disengage="handleWarriorDisengage"
       @building-create="handleBuildingCreate"
       @hive-upgrade="handleHiveUpgrade"
     />
@@ -141,6 +143,14 @@ export default defineComponent({
       appSocketComponent.value.emitMessage('drone.disengage', action);
     };
 
+    const handleWarriorEngage = (action: DroneAction): void => {
+      appSocketComponent.value.emitMessage('warrior.engage', action);
+    };
+
+    const handleWarriorDisengage = (action: DroneAction): void => {
+      appSocketComponent.value.emitMessage('warrior.disengage', action);
+    };
+
     const handleHoveredElementChanged = (element: HoverableElement): void => {
       hoveredElement.value = element;
     };
@@ -196,6 +206,8 @@ export default defineComponent({
       // Drone engagement / disengagement
       handleDroneEngage,
       handleDroneDisengage,
+      handleWarriorEngage,
+      handleWarriorDisengage,
       // Build
       handleBuildingCreate,
       handleBuildingCreated,

@@ -24,9 +24,19 @@
         <app-drone-action-menu
           :action="action"
           :nbDrones="props.hive.actionsNbDrones[action]"
-          :nbMaxDrones="props.hive.drones.length"
+          :nbMaxDrones="props.hive.nbWorkers"
           @drone-engage="emit('drone-engage', action)"
           @drone-disengage="emit('drone-disengage', action)"
+        />
+      </div>
+      <hr class="app-divider" />
+      <div class="main-menu-line" v-for="action in warriorActions" :key="action">
+        <app-drone-action-menu
+          :action="action"
+          :nbDrones="props.hive.actionsNbDrones[action]"
+          :nbMaxDrones="props.hive.nbWarriors"
+          @drone-engage="emit('warrior-engage', action)"
+          @drone-disengage="emit('warrior-disengage', action)"
         />
       </div>
     </div>
@@ -54,7 +64,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import { colors, workerActions } from 'src/enums';
+import { colors, workerActions, warriorActions } from 'src/enums';
 import AppProgressBar from './shared/app-progress-bar.vue';
 import AppDroneActionMenu from './app-drone-action-menu.vue';
 import AppIconButton from './shared/app-icon-button.vue';
@@ -82,6 +92,7 @@ export default defineComponent({
       emit,
       props,
       colors,
+      warriorActions,
       workerActions: workerActions.filter((action) => action !== 'recycle'),
       emptyResourceColor: getColor(colors.actions.collect.rgb, 0.2),
       emptyPopulationColor: getColor(colors.players.self.rgb, 0.2),

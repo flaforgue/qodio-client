@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="app-icon-button">
     <app-button height="30px" width="30px" v-bind="props">
       <img height="30" width="30" :src="`/public/images/icons/${props.icon}.png`" />
     </app-button>

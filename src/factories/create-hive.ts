@@ -27,5 +27,6 @@ export default (): Hive => ({
     build: 0,
     recycle: 0,
     defend: 0,
+    attack: 0,
   },
 });

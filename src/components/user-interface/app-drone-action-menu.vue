@@ -2,7 +2,7 @@
   <div class="app-drone-action-menu">
     <div class="drone-action-menu-container">
       <app-icon-button
-        v-if="props.action !== 'wait'"
+        v-if="props.action !== 'wait' && props.action !== 'defend'"
         icon="minus"
         :color="colors.white.hex"
         :backgroundColor="colors.actions[props.action].hex"
@@ -18,7 +18,7 @@
       />
 
       <app-icon-button
-        v-if="props.action !== 'wait'"
+        v-if="props.action !== 'wait' && props.action !== 'defend'"
         icon="plus"
         :color="colors.white.hex"
         :backgroundColor="colors.actions[props.action].hex"
@@ -65,6 +65,10 @@ export default defineComponent({
 .drone-action-menu-container {
   display: flex;
   justify-content: center;
+
+  .app-icon-button {
+    margin-top: -10px;
+  }
 
   .app-progress-bar {
     width: 220px;
