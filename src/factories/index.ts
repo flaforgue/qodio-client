@@ -1,7 +1,7 @@
 import createHive from './create-hive';
-import createBoard from './create-board';
+import createMap from './create-map';
 
 export default {
   createHive,
-  createBoard,
+  createMap,
 };

@@ -2,24 +2,24 @@
   <div
     class="app-game"
     :style="{
-      height: `${board.height}px`,
-      width: `${board.width}px`,
+      height: `${map.height}px`,
+      width: `${map.width}px`,
     }"
   >
     <app-game-canvas
       ref="appGameCanvasComponent"
-      :height="board.height"
-      :width="board.width"
+      :height="map.height"
+      :width="map.width"
       :hoveredElement="hoveredElement"
       :activeElement="activeElement"
-      :resources="board.resources"
+      :resources="map.resources"
       :playerHive="playerHive"
       :otherHives="otherHives"
     />
     <app-interactions-canvas
       ref="appInteractionsCanvasComponent"
-      :height="board.height"
-      :width="board.width"
+      :height="map.height"
+      :width="map.width"
       :hoveredElement="hoveredElement"
       :activeElement="activeElement"
       @hoveredElementChanged="handleHoveredElementChanged"
@@ -58,7 +58,7 @@ import AppInteractionsCanvas from './canvas/app-interactions-canvas.vue';
 import AppSocket from './app-socket.vue';
 import AppMainMenu from './user-interface/app-main-menu.vue';
 import { defineComponent, ref, reactive, nextTick } from 'vue';
-import { Player, Game, Resource, Board, Hive, DroneAction, HoverableElement } from 'src/types';
+import { Player, Game, Resource, Map, Hive, DroneAction, HoverableElement } from 'src/types';
 import Factories from 'src/factories';
 
 export default defineComponent({
@@ -77,7 +77,7 @@ export default defineComponent({
     const appInteractionsCanvasComponent = ref();
     const hoveredElement = ref<HoverableElement>();
     const activeElement = ref<HoverableElement>();
-    const board = reactive<Board>(Factories.createBoard());
+    const map = reactive<Map>(Factories.createMap());
     const playerHive = ref<Hive>(Factories.createHive());
     const knownResources = ref<Resource[]>([]);
     const otherHives = reactive<Hive[]>([]);
@@ -91,9 +91,9 @@ export default defineComponent({
     };
 
     const handleGameCreate = (game: Game): void => {
-      board.height = game.board.height;
-      board.width = game.board.width;
-      board.resources = game.board.resources;
+      map.height = game.map.height;
+      map.width = game.map.width;
+      map.resources = game.map.resources;
     };
 
     const handleGameStop = (): void => {
@@ -104,7 +104,7 @@ export default defineComponent({
       if (!isLocked.value) {
         isLocked.value = true;
         otherHives.length = 0;
-        board.resources = game.board.resources;
+        map.resources = game.map.resources;
 
         for (let i = 0; i < game.players.length; i++) {
           const player = game.players[i];
@@ -189,7 +189,7 @@ export default defineComponent({
       activeElement,
       handleActiveElementChanged,
       appGameCanvasComponent,
-      board,
+      map,
       handleSelfCreate,
       handleGameCreate,
       handleGameStop,

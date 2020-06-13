@@ -4,12 +4,12 @@ export type Position = {
 };
 
 export type Game = {
-  board: Board;
+  map: Map;
   players: Player[];
   maxPlayers: number;
 };
 
-export type Board = {
+export type Map = {
   width: number;
   height: number;
   resources: Resource[];
@@ -73,7 +73,9 @@ export type Direction =
 export interface Drone extends PlayerEntity {
   action: DroneAction;
   carriedResourceUnits: number;
+  attackProgress: number;
   direction: Direction;
+  target: Position;
 }
 
 export interface Resource extends Entity {

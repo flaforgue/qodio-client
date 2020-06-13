@@ -7,7 +7,7 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue';
 import { Hive, Drone, Resource, PlayerType, BuildingRequest, HoverableElement } from 'src/types';
-import { drawCircle, getColor, drawCircularProgress } from 'src/utils';
+import { drawCircle, getColor, drawCircularProgress, drawLine } from 'src/utils';
 import { colors } from 'src/enums';
 import {
   createHiveSprites,
@@ -41,6 +41,7 @@ export default defineComponent((props: AppGameCanvasProps) => {
   onMounted(() => {
     if (canvas.value) {
       context = canvas.value.getContext('2d') as CanvasRenderingContext2D;
+      context.imageSmoothingEnabled = false;
     }
   });
 
@@ -64,6 +65,13 @@ export default defineComponent((props: AppGameCanvasProps) => {
   };
 
   const drawDrone = (playerType: PlayerType, drone: Drone): void => {
+    if (drone.attackProgress >= 0.9) {
+      context.shadowColor = colors.grey.hex;
+      context.shadowBlur = 10;
+      drawLine(context, drone.position, drone.target, colors.grey.hex, 3);
+      context.shadowBlur = 0;
+    }
+
     const spriteActionName = playerType === 'self' ? drone.action : 'ennemy';
     context.drawImage(
       droneSprites[spriteActionName][drone.direction],
