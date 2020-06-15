@@ -9,7 +9,7 @@
         }"
       ></div>
     </div>
-    <div class="progress-bar-label">
+    <div class="progress-bar-label" v-if="props.title">
       {{ props.title }}
       ({{ props.value }}/{{ props.max }})
     </div>

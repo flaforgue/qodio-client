@@ -1,6 +1,13 @@
 <template>
   <div class="app-hive-menu">
     <h3>Hive - level {{ props.hive.level }}</h3>
+    <app-progress-bar
+      :color="colors.resource.hex"
+      :emptyColor="colors.white.hex"
+      :value="props.hive.life"
+      :max="props.hive.maxLife"
+      title="Life"
+    />
     <app-icon-button
       class="app-menu-item"
       icon="build"
@@ -82,13 +89,15 @@ import { Hive } from 'src/types';
 import config from 'src/config';
 import colors from 'src/enums/colors';
 import AppIconButton from '../shared/app-icon-button.vue';
+import AppProgressBar from '../shared/app-progress-bar.vue';
 
 type AppHiveMenuProps = {
   hive: Hive;
+  playerId: string;
 };
 
 export default defineComponent({
-  components: { AppIconButton },
+  components: { AppIconButton, AppProgressBar },
   setup(props: AppHiveMenuProps, { emit }) {
     return {
       props,

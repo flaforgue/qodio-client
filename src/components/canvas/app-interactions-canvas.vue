@@ -111,9 +111,7 @@ export default defineComponent((props: AppInteractionsCanvasProps, { emit }) => 
 
   const removeKnownResource = (knownResourceId: string): void => {
     removeFromArrayById(hoverableElements, knownResourceId);
-    if (shouldDrawHitboxes) {
-      refresh();
-    }
+    refresh();
   };
 
   return {
